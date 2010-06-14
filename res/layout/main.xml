@@ -5,39 +5,26 @@
     android:layout_height="fill_parent"
     >
 
-<TableLayout 
-	android:id="@+id/TableLayout01" 
+
+<Button 
+	android:text="Get My Alerts" 
+	android:id="@+id/MyAlerts" 
 	android:layout_width="fill_parent" 
-	android:layout_height="wrap_content"
-	android:stretchColumns="1">
-	<TableRow 
-		android:id="@+id/TableRow01" 
-		android:layout_width="fill_parent" 
-		android:layout_height="wrap_content">
-		<Button 
-			android:text="Get Local Planning Alerts" 
-			android:id="@+id/Button_LPA" 
-			android:layout_width="fill_parent" 
-			android:layout_height="wrap_content"
-			>
-		</Button>
-	</TableRow>
-	
-	<TableRow 
-		android:id="@+id/TableRow02" 
-		android:layout_width="fill_parent" 
-		android:layout_height="wrap_content">
- 
-	</TableRow>
-	<com.google.android.maps.MapView 
-    android:id="@+id/mapview1"
-    android:layout_width="fill_parent" 
-    android:layout_height="fill_parent" 
-    android:enabled="true" 
-    android:clickable="true" 
-    android:apiKey="0xxH9W3gdHC-GzEwKsBNWiihUH_hp7HRFSFGcgQ" /> 
-</TableLayout>
-
-
-
+	android:layout_height="wrap_content">
+</Button>
+<Button 
+	android:text="Get Alerts In My Suburb" 
+	android:id="@+id/MySuburb" 
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"></Button>
+<Button 
+	android:text="Get Alerts In My Postcode" 
+	android:id="@+id/MyPostCode" 
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"></Button>
+<Button 
+	android:text="Get Local Alerts" 
+	android:id="@+id/LocalAlerts" 
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"></Button>	
 </LinearLayout>

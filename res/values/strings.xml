@@ -2,4 +2,18 @@
 <resources>
     <string name="hello">Hello World, PlanningAlerts!</string>
     <string name="app_name">Planning Alerts</string>
+<string-array name="states"><item>NSW</item>
+<item>VIC</item>
+<item>QLD</item>
+<item>SA</item>
+<item>WA</item>
+<item>TAS</item>
+</string-array>
+<string-array name="states_labels"><item>NSW</item>
+<item>VIC</item>
+<item>QLD</item>
+<item>SA</item>
+<item>WA</item>
+<item>TAS</item>
+</string-array>
 </resources>

@@ -1,59 +1,70 @@
 package com.openaustralia;
 
-import com.google.android.maps.MapActivity;
-import com.google.android.maps.MyLocationOverlay;
-import com.google.android.maps.MapView;
+import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.location.LocationManager;
-import android.location.Location;
-import android.content.Context;
+import android.widget.Toast;
 
-public class PlanningAlerts extends MapActivity {
+public class PlanningAlerts extends Activity {
     /** Called when the activity is first created. */
-	
-	private Button locPlanAlert;
-	private LocationManager locationManager;
-	private MyLocationOverlay myloc;
-	private  MapView mymap;
+	SharedPreferences preferences;
+	Button myAlerts;
+	Button mySuburb;
+	Button myPostCode;
+	Button getLocal;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        locPlanAlert = (Button) findViewById(R.id.Button_LPA);
-        mymap = (MapView) findViewById(R.id.mapview1);
-        myloc = new MyLocationOverlay(this, mymap);
-        mymap.displayZoomControls(true);
         setContentView(R.layout.main);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        myAlerts = (Button) findViewById(R.id.MyAlerts);
+        mySuburb = (Button) findViewById(R.id.MySuburb);
+        myPostCode = (Button) findViewById(R.id.MyPostCode);
+        getLocal = (Button) findViewById(R.id.LocalAlerts);
         
-        initmymap();
-        initmyloc();
+        myAlerts.setOnClickListener(new OnClickListener() {
+        	
+        	@Override
+        	public void onClick(View v){
+        		Intent myAlertsIntent = new Intent(v.getContext(),AlertsDisplay.class);
+        		myAlertsIntent.putExtra("type", 1);
+        		startActivityForResult(myAlertsIntent,0);
+        	}
+        });
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	MenuInflater inflater = getMenuInflater();
+    	inflater.inflate(R.menu.menu, menu);
+    	return true;
+    }
+    
+    @Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		// We have only one menu option
+		case R.id.Preferences:
+			// Launch Preference activity
+			Intent i = new Intent(PlanningAlerts.this, PlanningPreferences.class);
+			startActivity(i);
+			// A toast is a view containing a quick little message for the user.
+			Toast.makeText(PlanningAlerts.this,
+					"Here you can maintain your user credentials.",
+					Toast.LENGTH_LONG).show();
+			break;
+
+		}
+		return true;
+	}
         
-    }
-    protected boolean isRouteDisplayed() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-    
-    public void initmymap(){
-    	
-    }
-    
-    public void initmyloc(){
-		myloc.enableMyLocation();
-		mymap.getOverlays().add(myloc);
-    }
-    
-    public void OnResume(){
-    	myloc.enableMyLocation();
-    }
-    
-    public void OnPause(){
-    	myloc.disableMyLocation();
-    }
-    
-    public void getLocalAlerts(){
-    	
-    	
-    }
 }

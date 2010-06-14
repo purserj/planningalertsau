@@ -14,7 +14,10 @@
             </intent-filter>
         </activity>
 
-    </application>
+    <activity android:label="Preferences" android:name="PlanningPreferences">
+</activity>
+<activity android:name="AlertsDisplay"></activity>
+</application>
 <uses-permission android:name="android.permission.INTERNET" />
 
 <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>

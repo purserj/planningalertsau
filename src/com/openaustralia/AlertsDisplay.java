@@ -6,15 +6,9 @@ import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.DefaultHandler;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -67,24 +61,51 @@ public class AlertsDisplay extends Activity{
         	search = "";
         	break;
         }
-        //adtitle.setText(title);
+        adtitle.setText(title);
         String url = "http://www.planningalerts.org.au/" + search;
         Log.d("URL", url);
-        RssParser rp = new RssParser(url);
-        rp.parse();
-        RssFeed feed = rp.getFeed();
         
         try{
-        	Log.d("returnedarray", feed.description);
+        	URL urlc = new URL(url);
+        	Log.d("Url_Query", urlc.getQuery());
+        	XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+        	factory.setNamespaceAware(true);
+        	XmlPullParser xpp = factory.newPullParser();
+        
+        	xpp.setInput(urlc.openStream(), null);
+        	int eventType = xpp.getEventType();
+        	int inItem = 0;
+        	while (eventType != XmlPullParser.END_DOCUMENT) {
+        		int i = 0;
+        		Log.d("eventcount", Integer.toString(i));
+        		Log.d("eventType", Integer.toString(eventType));
+        		String title = "";
+        		if(eventType == XmlPullParser.START_DOCUMENT){
+        			
+        		}else if(eventType == XmlPullParser.START_TAG){
+        			String name = xpp.getName();
+        			Log.d("XmlParser", name);
+        			if(name.equalsIgnoreCase("item")){
+        				inItem = 1;
+        			}else if(name.equalsIgnoreCase("title")){
+        				title = xpp.getText();
+        				//Log.d("XmlParser", xpp.getText());
+        			}	
+        		}
+        		eventType = xpp.next();
+        		i++;
+        	}
+        }catch(MalformedURLException e){
+        	
+        }catch(XmlPullParserException e){
+        		Log.e("XmlParserError", e.getMessage());
+        }catch(IOException e){
+        	
+        }
+        try{
+        	//Log.d("returnedarray", feed.description);
         }catch(NullPointerException e){
         	Log.e("Error", "bugger");
-        }
-        
-        for(int i = 0; i < feed.items.size(); i++){
-        	TextView tv = new TextView(alertresults.getContext());
-        	tv.setId(100+i);
-        	tv.setText(feed.items.get(i).title);
-        	alertresults.addView(tv);
         }
 	}
 }

@@ -1,8 +1,10 @@
 package com.openaustralia;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -14,13 +16,13 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.content.ContentValues;
 
-import com.openaustralia.RssParser.RssFeed;;
 
 
 public class AlertsDisplay extends Activity{
@@ -39,6 +41,7 @@ public class AlertsDisplay extends Activity{
         alertresults = (LinearLayout) findViewById(R.id.AlertResults);
         extras = getIntent().getExtras();
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        List<AlertItem> alertitems = null;
         int type = extras.getInt("type");
         switch(type){
         case 1:
@@ -54,11 +57,11 @@ public class AlertsDisplay extends Activity{
         	break;
         case 2:
         	title = new String("Alerts in my Suburb");
-        	search = "";
+        	search = "applications.rss?suburb="+preferences.getString("town", "n/a")+"&state="+preferences.getString("state", "");
         	break;
         case 3:
         	title = new String("Alerts in my Postcode");
-        	search = "";
+        	search = "applications.rss?postcode="+preferences.getString("post_code", "n/a");
         	break;
         }
         adtitle.setText(title);
@@ -71,30 +74,59 @@ public class AlertsDisplay extends Activity{
         	XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
         	factory.setNamespaceAware(true);
         	XmlPullParser xpp = factory.newPullParser();
-        
         	xpp.setInput(urlc.openStream(), null);
+        	InputStream input = urlc.openStream();
+        	StringBuffer out = new StringBuffer();
+            byte[] b = new byte[4096];
+            for (int n; (n = input.read(b)) != -1;) {
+                out.append(new String(b, 0, n));
+            }
+            Log.d("Raw", out.toString());
         	int eventType = xpp.getEventType();
         	int inItem = 0;
+        	AlertItem currentitem = null;
         	while (eventType != XmlPullParser.END_DOCUMENT) {
-        		int i = 0;
-        		Log.d("eventcount", Integer.toString(i));
-        		Log.d("eventType", Integer.toString(eventType));
+        		
+        		String name = "";
         		String title = "";
-        		if(eventType == XmlPullParser.START_DOCUMENT){
-        			
-        		}else if(eventType == XmlPullParser.START_TAG){
-        			String name = xpp.getName();
-        			Log.d("XmlParser", name);
-        			if(name.equalsIgnoreCase("item")){
-        				inItem = 1;
-        			}else if(name.equalsIgnoreCase("title")){
-        				title = xpp.getText();
-        				//Log.d("XmlParser", xpp.getText());
-        			}	
+        		switch(eventType){
+        			case XmlPullParser.START_DOCUMENT:
+        				alertitems = new ArrayList<AlertItem>();
+        				break;
+        			case XmlPullParser.START_TAG:
+        				name = xpp.getName();
+        				if(name.equalsIgnoreCase("item")){
+        					currentitem = new AlertItem();
+        				} else if(currentitem != null){
+        					if(name.equalsIgnoreCase("title")){
+        						title = xpp.nextText();
+        						currentitem.setTitle(title);
+        						Log.d("Res", title);
+        					} else if (name.equalsIgnoreCase("description")){
+        						currentitem.setDescription(xpp.nextText());
+        					}
+        				}
+        				break;
+        			case XmlPullParser.END_TAG:
+        				name = xpp.getName();
+        				if(name.equalsIgnoreCase("item")){
+        					alertitems.add(currentitem);
+
+        				}
+        				break;
         		}
         		eventType = xpp.next();
-        		i++;
         	}
+        	Log.i("Number of Alerts", Integer.toString(alertitems.size()));
+        	for(int i = 0; i < alertitems.size(); i++){
+        		AlertItem item = alertitems.get(i);
+        		TextView tvr = new TextView(alertresults.getContext());
+        		Log.d("FinRes", item.getTitle());
+        		tvr.setText(Html.fromHtml("<b>"+item.getTitle() + "</b><br />" +item.getDescription()));
+        		tvr.setId(100+i);
+        		alertresults.addView(tvr);
+        	}
+        	
         }catch(MalformedURLException e){
         	
         }catch(XmlPullParserException e){

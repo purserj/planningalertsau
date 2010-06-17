@@ -1,5 +1,6 @@
 package com.openaustralia;
 
+import com.openaustralia.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,11 +34,27 @@ public class PlanningAlerts extends Activity {
         
         myAlerts.setOnClickListener(new OnClickListener() {
         	
-        	@Override
+        	
         	public void onClick(View v){
         		Intent myAlertsIntent = new Intent(v.getContext(),AlertsDisplay.class);
         		myAlertsIntent.putExtra("type", 1);
         		startActivityForResult(myAlertsIntent,0);
+        	}
+        });
+        
+        mySuburb.setOnClickListener(new OnClickListener() {
+        	public void onClick(View v){
+        		Intent mySuburbsIntent = new Intent(v.getContext(),AlertsDisplay.class);
+        		mySuburbsIntent.putExtra("type",2);
+        		startActivityForResult(mySuburbsIntent,0);
+        	}
+        });
+        
+        myPostCode.setOnClickListener(new OnClickListener() {
+        	public void onClick(View v){
+        		Intent myPostcodeIntent = new Intent(v.getContext(),AlertsDisplay.class);
+        		myPostcodeIntent.putExtra("type",3);
+        		startActivityForResult(myPostcodeIntent,0);
         	}
         });
     }

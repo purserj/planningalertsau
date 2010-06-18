@@ -13,7 +13,11 @@ import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Html;
@@ -33,6 +37,28 @@ public class AlertsDisplay extends Activity{
 	Bundle extras;
 	LinearLayout alertresults;
 	String streamTitle = "";
+	
+	private class MyLocationListener implements LocationListener 
+    {
+        public void onLocationChanged(Location loc) {
+            if (loc != null) {
+                
+            }
+        }
+
+        public void onProviderDisabled(String provider) {
+            // TODO Auto-generated method stub
+        }
+
+        public void onProviderEnabled(String provider) {
+            // TODO Auto-generated method stub
+        }
+
+        public void onStatusChanged(String provider, int status, 
+            Bundle extras) {
+            // TODO Auto-generated method stub
+        }
+    }
 	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +89,24 @@ public class AlertsDisplay extends Activity{
         	title = new String("Alerts in my Postcode");
         	search = "applications.rss?postcode="+preferences.getString("post_code", "n/a");
         	break;
+        case 4:
+        	title = new String("Alerts by Location");
+        	LocationManager locationManager;
+        	LocationListener locationListener;
+        	locationListener = new MyLocationListener();
+        	String context = Context.LOCATION_SERVICE;
+        	locationManager = (LocationManager)getSystemService(context);
+        	String provider = LocationManager.GPS_PROVIDER;
+        	locationManager.requestLocationUpdates(provider, 1000L, 500.0f, locationListener);
+        	Location location = locationManager.getLastKnownLocation(provider);
+        	double lat = 0.0;
+        	double lng = 0.0;
+        	if (location != null)
+        	{
+        		lat = location.getLatitude();
+        		lng = location.getLongitude();
+          	}
+        	search = "applications.rss?lat="+lat+"&lng="+lng+"&radius="+preferences.getString("radius", "");      	
         }
         adtitle.setText(title);
         String url = "http://www.planningalerts.org.au/" + search;

@@ -57,6 +57,14 @@ public class PlanningAlerts extends Activity {
         		startActivityForResult(myPostcodeIntent,0);
         	}
         });
+        
+        getLocal.setOnClickListener(new OnClickListener() {
+        	public void onClick(View v){
+        		Intent LocalIntent = new Intent(v.getContext(),AlertsDisplay.class);
+        		LocalIntent.putExtra("type",4);
+        		startActivityForResult(LocalIntent,0);
+        	}
+        });
     }
     
     @Override

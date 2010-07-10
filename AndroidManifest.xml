@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="com.openaustralia"
+      package="com.collaborynth.planningalertsau"
       android:versionCode="1"
       android:versionName="1.0">
 
@@ -16,7 +16,14 @@
 
     <activity android:label="Preferences" android:name="PlanningPreferences">
 </activity>
-<activity android:name="AlertsDisplay"></activity>
+<activity 
+	android:name="AlertsDisplay"></activity>
+<activity 
+	android:name="MapAlertsDisplay"></activity>
+<activity 
+	android:name="AlertWebDisplay"
+	android:theme="@android:style/Theme.NoTitleBar"
+	></activity>
 </application>
 <uses-permission android:name="android.permission.INTERNET" />
 

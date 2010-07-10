@@ -1,7 +1,7 @@
-package com.openaustralia;
+package com.collaborynth.planningalertsau;
 
-import com.openaustralia.R;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class PlanningAlerts extends Activity {
@@ -84,8 +85,24 @@ public class PlanningAlerts extends Activity {
 			startActivity(i);
 			// A toast is a view containing a quick little message for the user.
 			Toast.makeText(PlanningAlerts.this,
-					"Here you can maintain your user credentials.",
+					"Set your location details.",
 					Toast.LENGTH_LONG).show();
+			break;
+		case R.id.About:
+			final Dialog adialog = new Dialog(PlanningAlerts.this);
+			adialog.setContentView(R.layout.aboutdialog);
+			adialog.setTitle("About PlanningAlertsAU");
+			adialog.setCancelable(true);
+			TextView tv = (TextView) adialog.findViewById(R.id.AboutText);
+			tv.setText(R.string.About);
+			Button button = (Button) adialog.findViewById(R.id.CloseDialog);
+			button.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					adialog.dismiss();
+				}
+			});
+			adialog.show();
 			break;
 
 		}

@@ -1,4 +1,5 @@
-package com.openaustralia;
+package com.collaborynth.planningalertsau;
+
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 

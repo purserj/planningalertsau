@@ -1,4 +1,4 @@
-package com.openaustralia;
+package com.collaborynth.planningalertsau;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,7 +13,9 @@ import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
@@ -22,12 +24,16 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Html;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.content.ContentValues;
-
-
 
 public class AlertsDisplay extends Activity{
 	SharedPreferences preferences;
@@ -37,6 +43,7 @@ public class AlertsDisplay extends Activity{
 	Bundle extras;
 	LinearLayout alertresults;
 	String streamTitle = "";
+	public static List<AlertItem> alertitems = null;
 	
 	private class MyLocationListener implements LocationListener 
     {
@@ -67,7 +74,7 @@ public class AlertsDisplay extends Activity{
         alertresults = (LinearLayout) findViewById(R.id.AlertResults);
         extras = getIntent().getExtras();
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        List<AlertItem> alertitems = null;
+       
         int type = extras.getInt("type");
         switch(type){
         case 1:
@@ -125,7 +132,7 @@ public class AlertsDisplay extends Activity{
             for (int n; (n = input.read(b)) != -1;) {
                 out.append(new String(b, 0, n));
             }
-            Log.d("Raw", out.toString());
+            //Log.d("Raw", out.toString());
         	int eventType = xpp.getEventType();
         	int inItem = 0;
         	AlertItem currentitem = null;
@@ -145,9 +152,14 @@ public class AlertsDisplay extends Activity{
         					if(name.equalsIgnoreCase("title")){
         						title = xpp.nextText();
         						currentitem.setTitle(title);
-        						Log.d("Res", title);
         					} else if (name.equalsIgnoreCase("description")){
         						currentitem.setDescription(xpp.nextText());
+        					} else if (name.contains("point")){
+        						String[] lon_lat = xpp.nextText().split(" ");
+        						currentitem.setGeoPoint(Double.parseDouble(lon_lat[0]), 
+        								Double.parseDouble(lon_lat[1]));
+        					} else if(name.equalsIgnoreCase("link")){
+        						currentitem.setURL(xpp.nextText());
         					}
         				}
         				break;
@@ -161,14 +173,28 @@ public class AlertsDisplay extends Activity{
         		}
         		eventType = xpp.next();
         	}
-        	Log.i("Number of Alerts", Integer.toString(alertitems.size()));
+        	if(alertitems.size() == 0 || alertitems == null){
+        	Toast.makeText(AlertsDisplay.this,
+					"Sorry, there were no alerts for your search",
+					Toast.LENGTH_LONG).show();
+        	} else {
+        	//Log.i("Number of Alerts", Integer.toString(alertitems.size()));
         	for(int i = 0; i < alertitems.size(); i++){
-        		AlertItem item = alertitems.get(i);
+        		final AlertItem item = alertitems.get(i);
         		TextView tvr = new TextView(alertresults.getContext());
-        		Log.d("FinRes", item.getTitle());
+        		//Log.d("FinRes", item.getTitle());
         		tvr.setText(Html.fromHtml("<b>"+item.getTitle() + "</b><br />" +item.getDescription()));
         		tvr.setId(100+i);
+        		tvr.setOnClickListener(new OnClickListener() {
+        			public void onClick(View v){
+        				Intent myAlertsIntent = new Intent(v.getContext(),AlertWebDisplay.class);
+        				myAlertsIntent.putExtra("type", 1);
+        				myAlertsIntent.putExtra("link", item.getURL());
+        				startActivityForResult(myAlertsIntent,0);
+        			}
+        		});
         		alertresults.addView(tvr);
+        	}
         	}
         	
         }catch(MalformedURLException e){
@@ -184,4 +210,56 @@ public class AlertsDisplay extends Activity{
         	Log.e("Error", "bugger");
         }
 	}
+	
+	public boolean onCreateOptionsMenu(Menu menu) 
+	{
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.alertsdisplaymenu, menu);
+		return true;
+	}
+	    
+	public boolean onOptionsItemSelected(MenuItem item) 
+	{
+		Intent i = null;
+		switch (item.getItemId()) 
+		{
+		case R.id.mapit:
+			if(alertitems.size() == 0){
+				Toast.makeText(AlertsDisplay.this,
+						"Sorry, cannot view the map if there aren't any results",
+						Toast.LENGTH_LONG).show();
+			} else {
+				i = new Intent(AlertsDisplay.this, MapAlertsDisplay.class);
+				startActivity(i);
+			}
+			break;
+		case R.id.preferences:
+			// Launch Preference activity
+			i = new Intent(AlertsDisplay.this, PlanningPreferences.class);
+			startActivity(i);
+			// A toast is a view containing a quick little message for the user.
+			Toast.makeText(AlertsDisplay.this,
+					"Set your location details",
+					Toast.LENGTH_LONG).show();
+			break;
+		case R.id.About:
+			final Dialog adialog = new Dialog(AlertsDisplay.this);
+			adialog.setContentView(R.layout.aboutdialog);
+			adialog.setTitle("About PlanningAlertsAU");
+			adialog.setCancelable(true);
+			TextView tv = (TextView) adialog.findViewById(R.id.AboutText);
+			tv.setText(R.string.About);
+			Button button = (Button) adialog.findViewById(R.id.CloseDialog);
+			button.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				adialog.dismiss();
+			}
+			});
+			adialog.show();
+			break;
+
+	}
+		return true;
+	}			
 }

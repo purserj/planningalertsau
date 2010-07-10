@@ -3,7 +3,7 @@
   xmlns:android="http://schemas.android.com/apk/res/android">
 <EditTextPreference android:summary="Your default address" android:key="Address" android:title="Address"></EditTextPreference>
 <EditTextPreference android:summary="Your default location" android:key="town" android:title="City/Town"></EditTextPreference>
-<EditTextPreference android:summary="What distance from your location you want to search" android:key="radius" android:title="radius"></EditTextPreference>
+<EditTextPreference android:summary="How far in meters your search should reach" android:key="radius" android:title="radius"></EditTextPreference>
 <ListPreference android:title="State" android:key="state" android:entryValues="@array/states" android:entries="@array/states_labels"></ListPreference>
 
 <EditTextPreference android:title="Post Code" android:key="post_code"></EditTextPreference>

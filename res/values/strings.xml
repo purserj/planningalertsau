@@ -16,4 +16,9 @@
 <item>WA</item>
 <item>TAS</item>
 </string-array>
+<string name="About">
+<p>PlanningAlertsAU is an open source Android App built on top of the very cool work being done by the folks over at <a href="http://openaustralia.org.au">OpenAustralia</a>.</p>
+<p>It is a work in progress, so please feel free to log any bugs <a href="http://code.google.com/p/planningalertsau/issues/list">here</a></p>
+
+</string>
 </resources>

@@ -33,10 +33,10 @@ public class MapAlertsDisplay extends MapActivity {
         map.setBuiltInZoomControls(true);
         mcontroller = map.getController();
         List<Overlay> mapOverlays = map.getOverlays();
-        Drawable drawable = this.getResources().getDrawable(R.drawable.androidmarker);
+        Drawable drawable = this.getResources().getDrawable(R.drawable.mapindicator);
         AlertsOverlay itemizedoverlay = new AlertsOverlay(drawable);
         alerts = AlertsDisplay.alertitems;
-        Log.d("alerts_num", Integer.toString(alerts.size()));
+        //Log.d("alerts_num", Integer.toString(alerts.size()));
         mapOverlays.clear();
         for(int i = 0; i < alerts.size(); i++)
         {
@@ -49,13 +49,13 @@ public class MapAlertsDisplay extends MapActivity {
         		mcontroller.animateTo(ai.getGP());
         		mcontroller.setZoom(17);
         	}
-        	Log.d("number of overlays", Integer.toString(itemizedoverlay.size()));
-        	Log.d("GeoPoint", Integer.toString(ai.getGP().getLatitudeE6()));
-        	Log.d("GeoPoint", Integer.toString(ai.getGP().getLongitudeE6()));
+        	//Log.d("number of overlays", Integer.toString(itemizedoverlay.size()));
+        	//Log.d("GeoPoint", Integer.toString(ai.getGP().getLatitudeE6()));
+        	//Log.d("GeoPoint", Integer.toString(ai.getGP().getLongitudeE6()));
         }
 
         mapOverlays.add(itemizedoverlay);
-        Log.d("number of overlays", Integer.toString(mapOverlays.size()));
+        //Log.d("number of overlays", Integer.toString(mapOverlays.size()));
     }
  
     @Override

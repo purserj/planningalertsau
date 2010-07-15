@@ -91,6 +91,7 @@ public class AlertsDisplay extends Activity{
         case 2:
         	title = new String("Alerts in my Suburb");
         	search = "applications.rss?suburb="+preferences.getString("town", "n/a")+"&state="+preferences.getString("state", "");
+        	search = search.replaceAll("\\s", "%20");
         	break;
         case 3:
         	title = new String("Alerts in my Postcode");
@@ -103,7 +104,12 @@ public class AlertsDisplay extends Activity{
         	locationListener = new MyLocationListener();
         	String context = Context.LOCATION_SERVICE;
         	locationManager = (LocationManager)getSystemService(context);
-        	String provider = LocationManager.GPS_PROVIDER;
+        	String provider = null;
+        	if(locationManager.isProviderEnabled( LocationManager.GPS_PROVIDER )){
+        		provider = LocationManager.GPS_PROVIDER;
+        	} else {
+        		provider = LocationManager.NETWORK_PROVIDER;
+        	}
         	locationManager.requestLocationUpdates(provider, 1000L, 500.0f, locationListener);
         	Location location = locationManager.getLastKnownLocation(provider);
         	double lat = 0.0;

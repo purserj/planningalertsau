@@ -19,7 +19,7 @@ public class AlertsOverlay extends ItemizedOverlay{
 		}
 
 	public AlertsOverlay(Drawable defaultMarker, Context context) {
-		  super(defaultMarker);
+		  super(boundCenterBottom(defaultMarker));
 		  mcontext = context;
 	}
 

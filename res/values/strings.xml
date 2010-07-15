@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, PlanningAlerts!</string>
+    <string name="hello">Planning Alerts AU is based on the good work at planningalerts.org.au</string>
     <string name="app_name">Planning Alerts</string>
 <string-array name="states"><item>NSW</item>
 <item>VIC</item>

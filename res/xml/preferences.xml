@@ -1,10 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
   xmlns:android="http://schemas.android.com/apk/res/android">
-<EditTextPreference android:summary="Your default address" android:key="Address" android:title="Address"></EditTextPreference>
-<EditTextPreference android:summary="Your default location" android:key="town" android:title="City/Town"></EditTextPreference>
-<EditTextPreference android:summary="How far in meters your search should reach" android:key="radius" android:title="radius"></EditTextPreference>
-<ListPreference android:title="State" android:key="state" android:entryValues="@array/states" android:entries="@array/states_labels"></ListPreference>
-
-<EditTextPreference android:title="Post Code" android:key="post_code"></EditTextPreference>
+<EditTextPreference 
+	android:summary="Your default address" 
+	android:key="Address" 
+	android:title="Address">
+	</EditTextPreference>
+<EditTextPreference 
+	android:summary="Your default location" 
+	android:key="town" 
+	android:title="City/Town">
+	</EditTextPreference>
+<EditTextPreference 
+	android:summary="How far in meters your search should reach" 
+	android:key="radius" 
+	android:title="Radius"
+	android:inputType="number"
+	android:digits="0123456789">
+	</EditTextPreference>
+<ListPreference 
+	android:title="State" 
+	android:key="state" 
+	android:entryValues="@array/states" 
+	android:entries="@array/states_labels">
+	</ListPreference>
+<EditTextPreference 
+	android:title="Post Code" 
+	android:key="post_code"
+	android:inputType="number"
+	android:digits="0123456789">
+	</EditTextPreference>
 </PreferenceScreen>

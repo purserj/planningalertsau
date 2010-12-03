@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
@@ -9,21 +8,24 @@
 	android:id="@+id/FPLogo" 
 	android:layout_width="fill_parent" 
 	android:layout_height="wrap_content" 
-	android:src="@drawable/logo" android:scaleType="center">
+	android:src="@drawable/logo" android:scaleType="center"
+	android:layout_centerHorizontal="true"
+	android:layout_marginTop="5dip">
 	</ImageView>
 <TextView 
 	android:id="@+id/FPText" 
 	android:layout_width="fill_parent" 
 	android:layout_height="wrap_content"
 	android:text="@string/hello"
-	android:padding="10dip"
-	android:textStyle="bold">
+	android:layout_below="@+id/FPLogo"
+	android:layout_centerHorizontal="true"
+	style="@style/headerText">
 	</TextView>
-<LinearLayout 
-	android:id="@+id/LinearLayout01" 
-	android:layout_width="fill_parent" 
-	android:layout_height="wrap_content"
-	android:orientation="vertical"
+<RelativeLayout
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_below="@+id/FPText"
+		android:layout_alignParentBottom="true"
 	>
 	<Button 
 		android:text="Get My Alerts" 
@@ -35,26 +37,22 @@
 		android:text="Get Alerts In My Suburb" 
 		android:id="@+id/MySuburb" 
 		android:layout_width="fill_parent" 
-		android:layout_height="wrap_content">
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/MyAlerts">
 		</Button>
 	<Button 
 		android:text="Get Alerts In My Postcode" 
 		android:id="@+id/MyPostCode" 
 		android:layout_width="fill_parent" 
-		android:layout_height="wrap_content">
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/MySuburb">
 		</Button>
 	<Button 
 		android:text="Get Local Alerts" 
 		android:id="@+id/LocalAlerts" 
 		android:layout_width="fill_parent" 
-		android:layout_height="wrap_content">
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/MyPostCode">
 		</Button>
-	</LinearLayout>
-
-
-	
-
-
-
-
-</LinearLayout>
+	</RelativeLayout>
+</RelativeLayout>

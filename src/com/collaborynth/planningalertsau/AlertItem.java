@@ -8,6 +8,7 @@ public class AlertItem {
 	private String description;
 	private GeoPoint gp;
 	public String url;
+	public String date;
 	
 
 	public void AlertItem(){
@@ -15,34 +16,42 @@ public class AlertItem {
 	}
 		
 	public String getTitle(){
-		return title;
+		return this.title;
 	}
 	
 	public GeoPoint getGP(){
-		return gp;
+		return this.gp;
 	}
 	
 	public String getDescription(){
-		return description;
+		return this.description;
+	}
+	
+	public String getDate(){
+		return this.date;
 	}
 	
 	public String getURL(){
-		return url;
+		return this.url;
 	}
 	
 	public void setTitle(String tstring){
-		title = tstring;
+		this.title = tstring;
 	}
 	
 	public void setDescription(String dstring){
-		description = dstring;
+		this.description = dstring;
 	}
 	
 	public void setGeoPoint(Double lat, Double lon){
-		gp = new GeoPoint((int)(lat * 1e6),(int)(lon * 1e6));
+		this.gp = new GeoPoint((int)(lat * 1e6),(int)(lon * 1e6));
+	}
+	
+	public void setDate(String dt){
+		this.date = dt;
 	}
 	
 	public void setURL(String purl){
-		url = purl;
+		this.url = purl;
 	}
 }

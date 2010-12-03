@@ -34,6 +34,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.content.ContentValues;
+import android.graphics.drawable.Drawable;
 
 public class AlertsDisplay extends Activity{
 	SharedPreferences preferences;
@@ -84,7 +85,6 @@ public class AlertsDisplay extends Activity{
         	address += preferences.getString("state", "n/a") + ",";
         	address += preferences.getString("post_code", "");
         	address = address.replaceAll("\\s", "%20");
-        	Log.d("Address", address);
         	search = "applications.rss?address="+address;
         	search += "&radius="+preferences.getString("radius", "n/a");
         	break;
@@ -166,6 +166,8 @@ public class AlertsDisplay extends Activity{
         								Double.parseDouble(lon_lat[1]));
         					} else if(name.equalsIgnoreCase("link")){
         						currentitem.setURL(xpp.nextText());
+        					} else if(name.equalsIgnoreCase("pubDate")){
+        						currentitem.setDate(xpp.nextText());
         					}
         				}
         				break;
@@ -199,6 +201,8 @@ public class AlertsDisplay extends Activity{
         				startActivityForResult(myAlertsIntent,0);
         			}
         		});
+        		tvr.setBackgroundResource(R.drawable.border);
+        		tvr.setPadding(5, 5, 5, 5);
         		alertresults.addView(tvr);
         	}
         	}

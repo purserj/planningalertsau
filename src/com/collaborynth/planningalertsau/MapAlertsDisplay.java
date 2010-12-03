@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -14,6 +15,7 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import com.google.android.maps.GeoPoint;
+import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
@@ -21,6 +23,7 @@ import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 import com.google.android.maps.Projection;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -67,7 +70,7 @@ public class MapAlertsDisplay extends MapActivity {
         	AlertItem ai = alerts.get(i);
         	OverlayItem ol = new OverlayItem(ai.getGP(), 
         			ai.getTitle(), 
-        			ai.getDescription());
+        			ai.getDate() + "\n" + ai.getDescription());
         	itemizedoverlay.addOverlay(ol);
         	if(i == 0){
         		mcontroller.animateTo(ai.getGP());
@@ -155,7 +158,7 @@ public class MapAlertsDisplay extends MapActivity {
     			
     		}
     	urlString.append("&ie=UTF8&0&om=0&output=kml");
-    	Log.d("xxx","URL="+urlString.toString());
+    	
     	// get the kml (XML) doc. And parse it to get the coordinates(direction route).
     	Document doc = null;
     	HttpURLConnection urlConnection= null;
@@ -177,15 +180,14 @@ public class MapAlertsDisplay extends MapActivity {
     	{
     		//String path = doc.getElementsByTagName("GeometryCollection").item(0).getFirstChild().getFirstChild().getNodeName();
     		String path = doc.getElementsByTagName("GeometryCollection").item(0).getFirstChild().getFirstChild().getFirstChild().getNodeValue() ;
-    		Log.d("xxx","path="+ path);
     		String [] pairs = path.split(" "); 
     		String[] lngLat = pairs[0].split(","); // lngLat[0]=longitude lngLat[1]=latitude lngLat[2]=height
     		// src
     		GeoPoint startGP = new GeoPoint((int)(Double.parseDouble(lngLat[1])*1E6),(int)(Double.parseDouble(lngLat[0])*1E6));
-    		map.getOverlays().add(new MyOverLay(startGP,startGP,1));
+    		//map.getOverlays().add(new MyOverLay(startGP,startGP,1));
     		GeoPoint gp1;
     		GeoPoint gp2 = startGP; 
-    		for(int i=1;i<pairs.length;i++) // the last one would be crash
+    		/*for(int i=1;i<pairs.length;i++) // the last one would be crash
     		{
     			lngLat = pairs[i].split(",");
     			gp1 = gp2;
@@ -193,8 +195,8 @@ public class MapAlertsDisplay extends MapActivity {
     			gp2 = new GeoPoint((int)(Double.parseDouble(lngLat[1])*1E6),(int)(Double.parseDouble(lngLat[0])*1E6));
     			map.getOverlays().add(new MyOverLay(gp1,gp2,2,color));
     			Log.d("xxx","pair:" + pairs[i]);
-    		}
-    		map.getOverlays().add(new MyOverLay(dest,dest, 3)); // use the default color
+    		}*/
+    		//map.getOverlays().add(new MyOverLay(dest,dest, 3)); // use the default color
     	} 
     	}
     	catch (MalformedURLException e)
@@ -215,4 +217,44 @@ public class MapAlertsDisplay extends MapActivity {
     	}
     	}
     }
+    
+    private class AlertsOverlay extends ItemizedOverlay{
+    	
+    	private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
+    	Context mcontext = null;
+    	
+    	public AlertsOverlay(Drawable defaultMarker) {
+    		  super(boundCenterBottom(defaultMarker));
+    		}
+
+    	public AlertsOverlay(Drawable defaultMarker, Context context) {
+    		  super(boundCenterBottom(defaultMarker));
+    		  mcontext = context;
+    	}
+
+    	@Override
+    	protected OverlayItem createItem(int i) {
+    		// TODO Auto-generated method stub
+    		return mOverlays.get(i);
+    	}
+
+    	@Override
+    	public int size() {
+    		// TODO Auto-generated method stub
+    		return mOverlays.size();
+    	}
+    	
+    	public void addOverlay(OverlayItem overlay) {
+    	    mOverlays.add(overlay);
+    	    populate();
+    	}
+    	
+    	protected boolean onTap(int index) {
+    		String alert = mOverlays.get(index).getTitle() + "\n"
+    						+ mOverlays.get(index).getSnippet();
+    		Toast.makeText(getBaseContext(), alert, Toast.LENGTH_LONG).show();
+    		return true;
+    	}
+    }
+
 }

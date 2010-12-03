@@ -48,7 +48,6 @@ public class PlanningAlerts extends Activity {
                     String state = preferences.getString("state", "");
                     String pcode = preferences.getString("post_code", "");
                     String radius = preferences.getString("radius", "");
-               		Log.d("Settings", addr + " " + town + " " + state + " " + pcode + " " + radius);
                		if(addr.matches("") || town.matches("") 
                				|| state.matches("") || pcode.matches("")
                				|| radius.matches("")){
@@ -69,7 +68,6 @@ public class PlanningAlerts extends Activity {
         	
         	public void onClick(View v){
         		String town = preferences.getString("town", "");
-        		Log.d("Settings", town);
         		if(town.matches("")){
         			Toast.makeText(PlanningAlerts.this,
         					"You haven't set your Town/Suburb details.",
@@ -87,7 +85,6 @@ public class PlanningAlerts extends Activity {
         myPostCode.setOnClickListener(new OnClickListener() {
         	public void onClick(View v){
         		String pcode = preferences.getString("post_code", "");
-        		Log.d("Settings", pcode);
         		if(pcode.matches("")){
         			Toast.makeText(PlanningAlerts.this,
         					"You haven't set your Postcode",
@@ -106,7 +103,7 @@ public class PlanningAlerts extends Activity {
         	
         	public void onClick(View v){
         		String radius = preferences.getString("radius", "");
-        		Log.d("Settings", radius);
+        		
         		if(radius.matches("")){
         			Toast.makeText(PlanningAlerts.this,
         					"You haven't set the distance you want the search to encompass",

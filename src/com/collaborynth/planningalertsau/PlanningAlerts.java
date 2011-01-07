@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -18,113 +19,100 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class PlanningAlerts extends Activity {
     /** Called when the activity is first created. */
 	SharedPreferences preferences;
-	Button myAlerts;
-	Button mySuburb;
-	Button myPostCode;
+	Button newSearch;
+	Button savedSearches;
 	Button getLocal;
+	String stypeStr;
+	
+	private PlanningAlertsDBHelper dbhelper;
+	private SQLiteDatabase db;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        myAlerts = (Button) findViewById(R.id.MyAlerts);
-        mySuburb = (Button) findViewById(R.id.MySuburb);
-        myPostCode = (Button) findViewById(R.id.MyPostCode);
+        newSearch = (Button) findViewById(R.id.NewSearch);
+        savedSearches = (Button) findViewById(R.id.SavedSearches);
         getLocal = (Button) findViewById(R.id.LocalAlerts);
                 
-        myAlerts.setOnClickListener(new OnClickListener() {
+        newSearch.setOnClickListener(new OnClickListener() {
         	
-               	public void onClick(View v){
-               		String addr = preferences.getString("Address", "");
-                    String town = preferences.getString("town", "");
-                    String state = preferences.getString("state", "");
-                    String pcode = preferences.getString("post_code", "");
-                    String radius = preferences.getString("radius", "");
-               		if(addr.matches("") || town.matches("") 
-               				|| state.matches("") || pcode.matches("")
-               				|| radius.matches("")){
-               			Toast.makeText(PlanningAlerts.this,
-            					"You haven't set your location details. Please make sure they are all set.",
-            					Toast.LENGTH_LONG).show();
-               			Intent PrefsIntent = new Intent(PlanningAlerts.this, PlanningPreferences.class);
-               			startActivity(PrefsIntent);
-        			} else {
-               			Intent myAlertsIntent = new Intent(v.getContext(),AlertsDisplay.class);
-               			myAlertsIntent.putExtra("type", 1);
-               			startActivityForResult(myAlertsIntent,0);
-               		}
+        	public void onClick(View v){
+        		final Dialog searchDialog = new Dialog(PlanningAlerts.this);
+        		searchDialog.setContentView(R.layout.searchview);
+        		searchDialog.setTitle("New Search");
+        		searchDialog.setCancelable(true);
+        		searchDialog.show();
+        		
+        		final Spinner stype = (Spinner) searchDialog.findViewById(R.id.SearchTypeSpinner);
+        		final EditText ev = (EditText) searchDialog.findViewById(R.id.SearchText);
+        		final EditText rv = (EditText) searchDialog.findViewById(R.id.RadiusText);
+        		final Spinner state = (Spinner) searchDialog.findViewById(R.id.StateSpinner);
+        	    stype.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        	        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+        	           
+        	        }
+        	        public void onNothingSelected(AdapterView<?> parent) {
+        	        }
+        	    });
+        		Button results = (Button) searchDialog.findViewById(R.id.ShowResultsButton);
+        		results.setOnClickListener(new OnClickListener() {
+        			
+        			public void onClick(View v){
+        				searchDialog.dismiss();
+        				Intent resultsIntent = new Intent(v.getContext(),AlertsDisplay.class);
+        				resultsIntent.putExtra("value", ev.getText().toString());
+        				resultsIntent.putExtra("radius", rv.getText().toString());
+        				String stypest = stype.getSelectedItem().toString();
+        				if(stypest.equalsIgnoreCase("Address")){
+        					resultsIntent.putExtra("type", 1);
+        				} else if(stypest.equalsIgnoreCase("Suburb")){
+        					resultsIntent.putExtra("type", 2);
+        				} else if(stypest.equalsIgnoreCase("Postcode")){
+        					resultsIntent.putExtra("type", 3);
+        				} else if(stypest.equalsIgnoreCase("Council Area")){
+        					resultsIntent.putExtra("type", 4);
+        				} else if(stypest.equalsIgnoreCase("Current Location")){
+        					resultsIntent.putExtra("type", 5);
+        				}
+        				startActivityForResult(resultsIntent,0);
+        			}
+        		});
         	}
         });
         
-        mySuburb.setOnClickListener(new OnClickListener() {
+        savedSearches.setOnClickListener(new OnClickListener() {
         	
         	public void onClick(View v){
-        		String town = preferences.getString("town", "");
-        		if(town.matches("")){
-        			Toast.makeText(PlanningAlerts.this,
-        					"You haven't set your Town/Suburb details.",
-        					Toast.LENGTH_LONG).show();
-        			Intent PrefsIntent = new Intent(PlanningAlerts.this, PlanningPreferences.class);
-           			startActivity(PrefsIntent);
-        		} else {
-        			Intent mySuburbsIntent = new Intent(v.getContext(),AlertsDisplay.class);
-        			mySuburbsIntent.putExtra("type",2);
-        			startActivityForResult(mySuburbsIntent,0);
-        		}
-        	}
-        });
-        
-        myPostCode.setOnClickListener(new OnClickListener() {
-        	public void onClick(View v){
-        		String pcode = preferences.getString("post_code", "");
-        		if(pcode.matches("")){
-        			Toast.makeText(PlanningAlerts.this,
-        					"You haven't set your Postcode",
-        					Toast.LENGTH_LONG).show();
-        			Intent PrefsIntent = new Intent(PlanningAlerts.this, PlanningPreferences.class);
-           			startActivity(PrefsIntent);
-        		} else {
-        			Intent myPostcodeIntent = new Intent(v.getContext(),AlertsDisplay.class);
-        			myPostcodeIntent.putExtra("type",3);
-        			startActivityForResult(myPostcodeIntent,0);
-        		}
+        		Intent savedSearchesIntent = new Intent(v.getContext(),AlertsDisplay.class);
+        		savedSearchesIntent.putExtra("type",2);
+        		startActivityForResult(savedSearchesIntent,0);
         	}
         });
         
         getLocal.setOnClickListener(new OnClickListener() {
         	
         	public void onClick(View v){
-        		String radius = preferences.getString("radius", "");
-        		
-        		if(radius.matches("")){
-        			Toast.makeText(PlanningAlerts.this,
-        					"You haven't set the distance you want the search to encompass",
-        					Toast.LENGTH_LONG).show();
-        			Intent PrefsIntent = new Intent(PlanningAlerts.this, PlanningPreferences.class);
-           			startActivity(PrefsIntent);
-        		} else {
-        			 final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
-
-        			    if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) && !manager.isProviderEnabled( LocationManager.NETWORK_PROVIDER ) ) {
-        			        buildAlertMessageNoGps();
-        			    } else {
-        			    	Intent LocalIntent = new Intent(v.getContext(),AlertsDisplay.class);
-        			    	LocalIntent.putExtra("type",4);
-        			    	startActivityForResult(LocalIntent,0);
-        			    }
-        		}
+        		Intent getLocalIntent = new Intent(v.getContext(),AlertsDisplay.class);
+        		getLocalIntent.putExtra("type",2);
+        		startActivityForResult(getLocalIntent,0);
         	}
         });
     }
-    
+        
+            
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
     	MenuInflater inflater = getMenuInflater();

@@ -74,19 +74,14 @@ public class AlertsDisplay extends Activity{
         adtitle = (TextView) findViewById(R.id.AlertsDisplayTitle);
         alertresults = (LinearLayout) findViewById(R.id.AlertResults);
         extras = getIntent().getExtras();
-        preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
        
         int type = extras.getInt("type");
         switch(type){
         case 1:
-        	title = new String("My Local Alerts");
-        	String address = preferences.getString("Address", "n/a") + ",";
-        	address += preferences.getString("town", "") + ",";
-        	address += preferences.getString("state", "n/a") + ",";
-        	address += preferences.getString("post_code", "");
-        	address = address.replaceAll("\\s", "%20");
-        	search = "applications.rss?address="+address;
-        	search += "&radius="+preferences.getString("radius", "n/a");
+        	title = new String("Search By Address");
+        	search = "applications.rss?address="+extras.getString("value");
+        	search += "&radius="+extras.getString("radius");
+        	search = search.replaceAll("\\s", "%20");
         	break;
         case 2:
         	title = new String("Alerts in my Suburb");
@@ -94,8 +89,8 @@ public class AlertsDisplay extends Activity{
         	search = search.replaceAll("\\s", "%20");
         	break;
         case 3:
-        	title = new String("Alerts in my Postcode");
-        	search = "applications.rss?postcode="+preferences.getString("post_code", "n/a");
+        	title = new String("Search by postcode");
+        	search = "applications.rss?postcode="+extras.getString("value");
         	break;
         case 4:
         	title = new String("Alerts by Location");

@@ -21,4 +21,14 @@
 <p>It is a work in progress, so please feel free to log any bugs <a href="http://code.google.com/p/planningalertsau/issues/list">here</a></p>
 
 </string>
+<string name="SearchPrompt">
+Search type
+</string>
+<string-array name="SearchTypes">
+<item>Address</item>
+<item>Suburb</item>
+<item>Postcode</item>
+<item>Council Area</item>
+<item>Current Location</item>
+</string-array>
 </resources>

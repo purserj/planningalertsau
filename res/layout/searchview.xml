@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
+  <Spinner 
+  	android:id="@+id/SearchTypeSpinner" 
+  	android:layout_height="wrap_content" 
+  	android:layout_width="fill_parent"
+  	android:prompt="@string/SearchPrompt"
+  	android:entries="@array/SearchTypes">
+  	</Spinner>
+  <EditText
+  	android:id="@+id/SearchText"
+  	android:layout_width="fill_parent"
+  	android:layout_height="wrap_content"
+  	android:layout_below="@+id/SearchTypeSpinner">
+  	</EditText>
+  <TextView
+  	android:id="@+id/RadiusLabel"
+  	android:layout_width="fill_parent"
+  	android:layout_height="wrap_content"
+  	android:text="Search Radius"
+  	android:layout_below="@+id/SearchText"
+  	android:visibility="gone">
+  	</TextView>
+  <EditText
+  	android:id="@+id/RadiusText"
+  	android:layout_width="fill_parent"
+  	android:layout_height="wrap_content"
+  	android:layout_below="@+id/RadiusLabel"
+  	android:visibility="gone">
+  	</EditText>
+  <TextView
+  	android:id="@+id/StateLabel"
+  	android:layout_width="fill_parent"
+  	android:layout_height="wrap_content"
+  	android:text="Select your State"
+  	android:layout_below="@+/RadiusText"
+  	android:visibility="gone">
+  	</TextView>
+  <Spinner
+  	android:id="@+/StateSpinner"
+  	android:layout_width="fill_parent"
+  	android:layout_height="wrap_content"
+  	android:entries="@array/states"
+  	android:layout_below="@+id/StateLabel"
+  	android:visibility="gone">
+  	</Spinner>
+  <Button
+  	android:layout_width="fill_parent"
+  	android:layout_height="wrap_content"
+  	android:id="@+id/ShowResultsButton"
+  	android:text="Show Results"
+  	android:layout_below="@+id/StateSpinner"
+  	android:layout_alignParentBottom="true">
+  	</Button>
+
+</RelativeLayout>

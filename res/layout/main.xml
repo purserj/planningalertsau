@@ -28,31 +28,24 @@
 		android:layout_alignParentBottom="true"
 	>
 	<Button 
-		android:text="Get My Alerts" 
-		android:id="@+id/MyAlerts" 
+		android:text="New Search" 
+		android:id="@+id/NewSearch" 
 		android:layout_width="fill_parent" 
 		android:layout_height="wrap_content">
 		</Button>
 	<Button 
-		android:text="Get Alerts In My Suburb" 
-		android:id="@+id/MySuburb" 
+		android:text="Saved Searches" 
+		android:id="@+id/SavedSearches" 
 		android:layout_width="fill_parent" 
 		android:layout_height="wrap_content"
-		android:layout_below="@+id/MyAlerts">
-		</Button>
-	<Button 
-		android:text="Get Alerts In My Postcode" 
-		android:id="@+id/MyPostCode" 
-		android:layout_width="fill_parent" 
-		android:layout_height="wrap_content"
-		android:layout_below="@+id/MySuburb">
+		android:layout_below="@+id/NewSearch">
 		</Button>
 	<Button 
 		android:text="Get Local Alerts" 
 		android:id="@+id/LocalAlerts" 
 		android:layout_width="fill_parent" 
 		android:layout_height="wrap_content"
-		android:layout_below="@+id/MyPostCode">
+		android:layout_below="@+id/SavedSearches">
 		</Button>
 	</RelativeLayout>
 </RelativeLayout>

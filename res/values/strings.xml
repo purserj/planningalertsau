@@ -9,6 +9,9 @@
 <item>WA</item>
 <item>TAS</item>
 </string-array>
+<string name="StatePrompt">
+	Select State
+</string>
 <string-array name="states_labels"><item>NSW</item>
 <item>VIC</item>
 <item>QLD</item>

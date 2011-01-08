@@ -85,7 +85,7 @@ public class AlertsDisplay extends Activity{
         	break;
         case 2:
         	title = new String("Alerts in my Suburb");
-        	search = "applications.rss?suburb="+preferences.getString("town", "n/a")+"&state="+preferences.getString("state", "");
+        	search = "applications.rss?suburb="+extras.getString("value")+"&state="+extras.getString("state");
         	search = search.replaceAll("\\s", "%20");
         	break;
         case 3:
@@ -93,6 +93,12 @@ public class AlertsDisplay extends Activity{
         	search = "applications.rss?postcode="+extras.getString("value");
         	break;
         case 4:
+        	title = new String("Search by Council Area");
+        	search = "authorities/"+extras.getString("value")+"/applications.rss";
+        	search = search.replaceAll("\\s", "_");
+        	search = search.toLowerCase();
+        	break;
+        case 5:
         	title = new String("Alerts by Location");
         	LocationManager locationManager;
         	LocationListener locationListener;
@@ -122,7 +128,7 @@ public class AlertsDisplay extends Activity{
         
         try{
         	URL urlc = new URL(url);
-        	Log.d("Url_Query", urlc.getQuery());
+        	//Log.d("Url_Query", urlc.getQuery());
         	XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
         	factory.setNamespaceAware(true);
         	XmlPullParser xpp = factory.newPullParser();

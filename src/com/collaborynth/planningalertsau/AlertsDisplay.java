@@ -45,6 +45,7 @@ public class AlertsDisplay extends Activity{
 	LinearLayout alertresults;
 	String streamTitle = "";
 	public static List<AlertItem> alertitems = null;
+	private SearchObject searchObj;
 	
 	private class MyLocationListener implements LocationListener 
     {
@@ -74,6 +75,7 @@ public class AlertsDisplay extends Activity{
         adtitle = (TextView) findViewById(R.id.AlertsDisplayTitle);
         alertresults = (LinearLayout) findViewById(R.id.AlertResults);
         extras = getIntent().getExtras();
+        searchObj = new SearchObject(this);
        
         int type = extras.getInt("type");
         switch(type){
@@ -122,103 +124,29 @@ public class AlertsDisplay extends Activity{
           	}
         	search = "applications.rss?lat="+lat+"&lng="+lng+"&radius="+preferences.getString("radius", "");      	
         }
+        searchObj.setSearchValues(extras.getString("value"), extras.getString("state"), extras.getString("radius"), extras.getInt("type"));
         adtitle.setText(title);
         String url = "http://www.planningalerts.org.au/" + search;
         Log.d("URL", url);
         
-        try{
-        	URL urlc = new URL(url);
-        	//Log.d("Url_Query", urlc.getQuery());
-        	XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-        	factory.setNamespaceAware(true);
-        	XmlPullParser xpp = factory.newPullParser();
-        	xpp.setInput(urlc.openStream(), null);
-        	InputStream input = urlc.openStream();
-        	StringBuffer out = new StringBuffer();
-            byte[] b = new byte[4096];
-            for (int n; (n = input.read(b)) != -1;) {
-                out.append(new String(b, 0, n));
-            }
-            //Log.d("Raw", out.toString());
-        	int eventType = xpp.getEventType();
-        	int inItem = 0;
-        	AlertItem currentitem = null;
-        	while (eventType != XmlPullParser.END_DOCUMENT) {
-        		
-        		String name = "";
-        		String title = "";
-        		switch(eventType){
-        			case XmlPullParser.START_DOCUMENT:
-        				alertitems = new ArrayList<AlertItem>();
-        				break;
-        			case XmlPullParser.START_TAG:
-        				name = xpp.getName();
-        				if(name.equalsIgnoreCase("item")){
-        					currentitem = new AlertItem();
-        				} else if(currentitem != null){
-        					if(name.equalsIgnoreCase("title")){
-        						title = xpp.nextText();
-        						currentitem.setTitle(title);
-        					} else if (name.equalsIgnoreCase("description")){
-        						currentitem.setDescription(xpp.nextText());
-        					} else if (name.contains("point")){
-        						String[] lon_lat = xpp.nextText().split(" ");
-        						currentitem.setGeoPoint(Double.parseDouble(lon_lat[0]), 
-        								Double.parseDouble(lon_lat[1]));
-        					} else if(name.equalsIgnoreCase("link")){
-        						currentitem.setURL(xpp.nextText());
-        					} else if(name.equalsIgnoreCase("pubDate")){
-        						currentitem.setDate(xpp.nextText());
-        					}
-        				}
-        				break;
-        			case XmlPullParser.END_TAG:
-        				name = xpp.getName();
-        				if(name.equalsIgnoreCase("item")){
-        					alertitems.add(currentitem);
-
-        				}
-        				break;
+        alertitems = searchObj.getResults(url);
+        for(int i = 0; i < alertitems.size(); i++){
+        	final AlertItem item = alertitems.get(i);
+        	TextView tvr = new TextView(alertresults.getContext());
+        	//Log.d("FinRes", item.getTitle());
+        	tvr.setText(Html.fromHtml("<b>"+item.getTitle() + "</b><br />" +item.getDescription()));
+        	tvr.setId(100+i);
+        	tvr.setOnClickListener(new OnClickListener() {
+        		public void onClick(View v){
+        			Intent myAlertsIntent = new Intent(v.getContext(),AlertWebDisplay.class);
+        			myAlertsIntent.putExtra("type", 1);
+        			myAlertsIntent.putExtra("link", item.getURL());
+        			startActivityForResult(myAlertsIntent,0);
         		}
-        		eventType = xpp.next();
-        	}
-        	if(alertitems.size() == 0 || alertitems == null){
-        	Toast.makeText(AlertsDisplay.this,
-					"Sorry, there were no alerts for your search",
-					Toast.LENGTH_LONG).show();
-        	} else {
-        	//Log.i("Number of Alerts", Integer.toString(alertitems.size()));
-        	for(int i = 0; i < alertitems.size(); i++){
-        		final AlertItem item = alertitems.get(i);
-        		TextView tvr = new TextView(alertresults.getContext());
-        		//Log.d("FinRes", item.getTitle());
-        		tvr.setText(Html.fromHtml("<b>"+item.getTitle() + "</b><br />" +item.getDescription()));
-        		tvr.setId(100+i);
-        		tvr.setOnClickListener(new OnClickListener() {
-        			public void onClick(View v){
-        				Intent myAlertsIntent = new Intent(v.getContext(),AlertWebDisplay.class);
-        				myAlertsIntent.putExtra("type", 1);
-        				myAlertsIntent.putExtra("link", item.getURL());
-        				startActivityForResult(myAlertsIntent,0);
-        			}
-        		});
-        		tvr.setBackgroundResource(R.drawable.border);
-        		tvr.setPadding(5, 5, 5, 5);
-        		alertresults.addView(tvr);
-        	}
-        	}
-        	
-        }catch(MalformedURLException e){
-        	
-        }catch(XmlPullParserException e){
-        		Log.e("XmlParserError", e.getMessage());
-        }catch(IOException e){
-        	
-        }
-        try{
-        	//Log.d("returnedarray", feed.description);
-        }catch(NullPointerException e){
-        	Log.e("Error", "bugger");
+        	});
+        	tvr.setBackgroundResource(R.drawable.border);
+        	tvr.setPadding(5, 5, 5, 5);
+        	alertresults.addView(tvr);
         }
 	}
 	
@@ -244,14 +172,8 @@ public class AlertsDisplay extends Activity{
 				startActivity(i);
 			}
 			break;
-		case R.id.preferences:
-			// Launch Preference activity
-			i = new Intent(AlertsDisplay.this, PlanningPreferences.class);
-			startActivity(i);
-			// A toast is a view containing a quick little message for the user.
-			Toast.makeText(AlertsDisplay.this,
-					"Set your location details",
-					Toast.LENGTH_LONG).show();
+		case R.id.savesearch:
+			searchObj.saveSearch();
 			break;
 		case R.id.About:
 			final Dialog adialog = new Dialog(AlertsDisplay.this);

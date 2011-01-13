@@ -106,14 +106,8 @@ public class MapAlertsDisplay extends MapActivity {
 		Intent i = null;
 		switch (item.getItemId()) 
 		{
-		case R.id.preferences:
-			// Launch Preference activity
-			i = new Intent(MapAlertsDisplay.this, PlanningPreferences.class);
-			startActivity(i);
-			// A toast is a view containing a quick little message for the user.
-			Toast.makeText(MapAlertsDisplay.this,
-					"Set your location details",
-					Toast.LENGTH_LONG).show();
+		case R.id.savesearch:
+			
 			break;
 		case R.id.About:
 			final Dialog adialog = new Dialog(MapAlertsDisplay.this);

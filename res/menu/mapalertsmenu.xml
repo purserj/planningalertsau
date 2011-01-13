@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
   xmlns:android="http://schemas.android.com/apk/res/android">
-<item android:id="@+id/preferences" android:title="Preferences" android:numericShortcut="1" android:titleCondensed="Prefs" android:alphabeticShortcut="P"></item>
+<item android:id="@+id/savesearch" android:title="Save Search" android:numericShortcut="1" android:titleCondensed="Save" android:alphabeticShortcut="S"></item>
 <item android:title="About" android:id="@+id/About"></item>
 <item android:title="Build Path" android:id="@+id/BuildPath"></item>
 </menu>

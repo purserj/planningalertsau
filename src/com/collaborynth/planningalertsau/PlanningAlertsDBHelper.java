@@ -7,11 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class PlanningAlertsDBHelper extends SQLiteOpenHelper{
 	
-	public PlanningAlertsDBHelper(Context context, String name,
-			CursorFactory factory, int version) {
-		super(context, name, factory, version);
-		// TODO Auto-generated constructor stub
-	}
+	
 
 	private static final int DATABASE_VERSION=1;
 	private static final String DATABASE_NAME="planningalertsdb";
@@ -22,9 +18,8 @@ public class PlanningAlertsDBHelper extends SQLiteOpenHelper{
 	private static final String SEARCH_TABLE_CREATE =
 		"CREATE TABLE "+ SEARCH_TABLE_NAME +
 		"(search_id INTEGER PRIMARY KEY AUTOINCREMENT," +
-		"search_address TEXT," +
-		"search_city TEXT," +
-		"search_postcode INTEGER," +
+		"search_type INTEGER," +
+		"search_value TEXT," +
 		"search_state TEXT," +
 		"search_radius INTEGER)";
 	
@@ -38,6 +33,11 @@ public class PlanningAlertsDBHelper extends SQLiteOpenHelper{
 		"result_url TEXT" +
 		"result_long DOUBLE," +
 		"result_lat DOUBLE)";
+	
+	public PlanningAlertsDBHelper(Context context) {
+		super(context, DATABASE_NAME, null, DATABASE_VERSION);
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {

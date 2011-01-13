@@ -46,6 +46,7 @@ public class PlanningAlerts extends Activity {
         newSearch = (Button) findViewById(R.id.NewSearch);
         savedSearches = (Button) findViewById(R.id.SavedSearches);
         getLocal = (Button) findViewById(R.id.LocalAlerts);
+        dbhelper = new PlanningAlertsDBHelper(this);
                 
         newSearch.setOnClickListener(new OnClickListener() {
         	
@@ -152,15 +153,6 @@ public class PlanningAlerts extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		// We have only one menu option
-		case R.id.Preferences:
-			// Launch Preference activity
-			Intent i = new Intent(PlanningAlerts.this, PlanningPreferences.class);
-			startActivity(i);
-			// A toast is a view containing a quick little message for the user.
-			Toast.makeText(PlanningAlerts.this,
-					"Set your location details.",
-					Toast.LENGTH_LONG).show();
-			break;
 		case R.id.About:
 			final Dialog adialog = new Dialog(PlanningAlerts.this);
 			adialog.setContentView(R.layout.aboutdialog);

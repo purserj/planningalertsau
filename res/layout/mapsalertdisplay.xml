@@ -2,14 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
     android:layout_width="fill_parent" 
     android:layout_height="fill_parent">
- 
+ <!--Signed Package android:apiKey="0xxH9W3gdHC-1Cy_Ef0Y_q01eSPwkrs_HTmyJ9w"-->
     <com.google.android.maps.MapView 
         android:id="@+id/mapView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:enabled="true"
         android:clickable="true"
-        android:apiKey=""
+        android:apiKey="0xxH9W3gdHC8JratR7W91HYVc4vcwyCMUEfXyMw"
         />
  
 </RelativeLayout>

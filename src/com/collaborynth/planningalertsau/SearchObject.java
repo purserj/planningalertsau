@@ -14,6 +14,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.Html;
 import android.util.Log;
@@ -28,6 +29,9 @@ public class SearchObject {
 	private String state;
 	private String radius;
 	private int stype;
+	int sid;
+	Context ct;
+	Utilities utils;
 	
 	private PlanningAlertsDBHelper dbhelper;
 	private SQLiteDatabase db;
@@ -35,12 +39,17 @@ public class SearchObject {
 	private List<AlertItem> alertitems;
 	
 	public SearchObject(Context ct){
+		this.ct = ct;
 		dbhelper = new PlanningAlertsDBHelper(ct);
 		
 	}
 	
 	public SearchObject(Context ct, int sid){
+		this.sid = sid;
 		dbhelper = new PlanningAlertsDBHelper(ct);
+		alertitems = getSavedResults();
+		this.ct = ct;
+		utils = new Utilities();
 	}
 	
 	public void setSearchValues(String var, String statestr, String radiusstr, int typeint){
@@ -125,13 +134,64 @@ public class SearchObject {
 		cv.put("search_value", variable);
 		cv.put("search_state", state);
 		cv.put("search_radius", radius);
-		db.insert("searches", null, cv);
-		
-		for(int i = 0; i < alertitems.size(); i++){
-		}
+		sid = (int)db.insert("searches", null, cv);
+		db.close();
+		saveSearchResults();
 	}
 	
-	public List<AlertItem> getSavedResults(int sid){
+	public void saveSearchResults(){
+		db = dbhelper.getWritableDatabase();
+		ContentValues cv = new ContentValues();
+		for(int i = 0; i < alertitems.size(); i++){
+			final AlertItem item = alertitems.get(i);
+			cv = new ContentValues();
+			cv.put("result_search_id", sid);
+			cv.put("result_title", item.getTitle());
+			cv.put("result_description", item.getDescription());
+			cv.put("result_date", item.getDate());
+			cv.put("result_url", item.getURL());
+			cv.put("result_long", item.getLong());
+			cv.put("result_lat", item.getLat());
+			db.insert("search_results", null, cv);
+		}
+		db.close();
+	}
+	
+	public List<AlertItem> getSavedResults(){
+		alertitems = new ArrayList<AlertItem>();
+		db = dbhelper.getReadableDatabase();
+		String query = "SELECT * FROM search_results WHERE result_search_id="+Integer.toString(this.sid);
+		Cursor cur = db.rawQuery(query, null);
+		Log.d("Query", query);
+		Log.d("Number of records", Integer.toString(cur.getCount()));
+		AlertItem currentItem = null;
+		cur.moveToFirst();
+		while(cur.isAfterLast() == false){
+			currentItem = new AlertItem();
+			currentItem.setTitle(cur.getString(2));
+			currentItem.setDescription(cur.getString(3));
+			currentItem.setGeoPoint(cur.getDouble(7), cur.getDouble(6));
+			currentItem.setDate(cur.getString(4));
+			currentItem.setURL(cur.getString(5));
+			alertitems.add(currentItem);
+			cur.moveToNext();
+		}
+		return alertitems;
+	}
+	
+	public void clearSavedResults(){
+		db = dbhelper.getWritableDatabase();
+		db.delete("search_results", "result_search_id=?", new String[] {Integer.toString(this.sid)});
+	}
+	
+	public List<AlertItem> updateSearch(Context ct){
+		db = dbhelper.getReadableDatabase();
+		Cursor cur = db.rawQuery("SELECT * FROM searches WHERE search_id = "+this.sid, null);
+		cur.moveToFirst();
+		String url = utils.buildUrl(cur.getInt(1), cur.getString(2), cur.getString(4), cur.getString(3), ct);
+		clearSavedResults();
+		alertitems = getResults(url);
+		saveSearchResults();
 		return alertitems;
 	}
 }

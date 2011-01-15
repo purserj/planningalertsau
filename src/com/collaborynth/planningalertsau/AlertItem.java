@@ -9,6 +9,8 @@ public class AlertItem {
 	private GeoPoint gp;
 	public String url;
 	public String date;
+	public double longt;
+	public double lat;
 	
 
 	public void AlertItem(){
@@ -31,6 +33,14 @@ public class AlertItem {
 		return this.date;
 	}
 	
+	public Double getLong(){
+		return this.longt;
+	}
+	
+	public Double getLat(){
+		return this.lat;
+	}
+	
 	public String getURL(){
 		return this.url;
 	}
@@ -44,6 +54,8 @@ public class AlertItem {
 	}
 	
 	public void setGeoPoint(Double lat, Double lon){
+		this.longt = lon;
+		this.lat = lat;
 		this.gp = new GeoPoint((int)(lat * 1e6),(int)(lon * 1e6));
 	}
 	

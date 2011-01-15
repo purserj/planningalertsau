@@ -30,7 +30,7 @@ public class PlanningAlertsDBHelper extends SQLiteOpenHelper{
 		"result_title TEXT," +
 		"result_description TEXT," +
 		"result_date TEXT," +
-		"result_url TEXT" +
+		"result_url TEXT," +
 		"result_long DOUBLE," +
 		"result_lat DOUBLE)";
 	

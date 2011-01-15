@@ -26,6 +26,8 @@
 	android:name="AlertWebDisplay"
 	android:theme="@android:style/Theme.NoTitleBar"
 	></activity>
+<activity
+	android:name="SavedSearchesDisplay"></activity>
 </application>
 <uses-permission android:name="android.permission.INTERNET" />
 

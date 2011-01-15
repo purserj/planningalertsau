@@ -72,65 +72,51 @@ public class AlertsDisplay extends Activity{
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alertsdisplay);
+        Utilities utils = new Utilities();
         adtitle = (TextView) findViewById(R.id.AlertsDisplayTitle);
         alertresults = (LinearLayout) findViewById(R.id.AlertResults);
         extras = getIntent().getExtras();
-        searchObj = new SearchObject(this);
-       
+        
         int type = extras.getInt("type");
         switch(type){
         case 1:
         	title = new String("Search By Address");
-        	search = "applications.rss?address="+extras.getString("value");
-        	search += "&radius="+extras.getString("radius");
-        	search = search.replaceAll("\\s", "%20");
         	break;
         case 2:
         	title = new String("Alerts in my Suburb");
-        	search = "applications.rss?suburb="+extras.getString("value")+"&state="+extras.getString("state");
-        	search = search.replaceAll("\\s", "%20");
         	break;
         case 3:
         	title = new String("Search by postcode");
-        	search = "applications.rss?postcode="+extras.getString("value");
         	break;
         case 4:
         	title = new String("Search by Council Area");
-        	search = "authorities/"+extras.getString("value")+"/applications.rss";
-        	search = search.replaceAll("\\s", "_");
-        	search = search.toLowerCase();
         	break;
         case 5:
         	title = new String("Alerts by Location");
-        	LocationManager locationManager;
-        	LocationListener locationListener;
-        	locationListener = new MyLocationListener();
-        	String context = Context.LOCATION_SERVICE;
-        	locationManager = (LocationManager)getSystemService(context);
-        	String provider = null;
-        	if(locationManager.isProviderEnabled( LocationManager.GPS_PROVIDER )){
-        		provider = LocationManager.GPS_PROVIDER;
-        	} else {
-        		provider = LocationManager.NETWORK_PROVIDER;
-        	}
-        	locationManager.requestLocationUpdates(provider, 1000L, 500.0f, locationListener);
-        	Location location = locationManager.getLastKnownLocation(provider);
-        	double lat = 0.0;
-        	double lng = 0.0;
-        	if (location != null)
-        	{
-        		lat = location.getLatitude();
-        		lng = location.getLongitude();
-          	}
-        	search = "applications.rss?lat="+lat+"&lng="+lng+"&radius="+preferences.getString("radius", "");      	
         }
-        searchObj.setSearchValues(extras.getString("value"), extras.getString("state"), extras.getString("radius"), extras.getInt("type"));
         adtitle.setText(title);
-        String url = "http://www.planningalerts.org.au/" + search;
-        Log.d("URL", url);
-        
-        alertitems = searchObj.getResults(url);
-        for(int i = 0; i < alertitems.size(); i++){
+        if(extras.getInt("sid") == 0){
+        	searchObj = new SearchObject(this);
+	        searchObj.setSearchValues(extras.getString("value"), extras.getString("state"), extras.getString("radius"), extras.getInt("type"));
+	        
+	        String url = utils.buildUrl(extras.getInt("type"),
+	        		extras.getString("value"), 
+	        		extras.getString("radius"), 
+	        		extras.getString("state"),
+	        		this);
+	        Log.d("URL", url);
+	        
+	        alertitems = searchObj.getResults(url);
+        } else {
+        	searchObj = new SearchObject(this, extras.getInt("sid"));
+        	alertitems = searchObj.getSavedResults();
+        }
+        updateAlerts();
+	}
+	
+	public void updateAlerts(){
+		alertresults.removeAllViewsInLayout();
+		for(int i = 0; i < alertitems.size(); i++){
         	final AlertItem item = alertitems.get(i);
         	TextView tvr = new TextView(alertresults.getContext());
         	//Log.d("FinRes", item.getTitle());
@@ -153,7 +139,11 @@ public class AlertsDisplay extends Activity{
 	public boolean onCreateOptionsMenu(Menu menu) 
 	{
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.alertsdisplaymenu, menu);
+		if(extras.getInt("sid") == 0){
+			inflater.inflate(R.menu.alertsdisplaymenu, menu);
+		} else {
+			inflater.inflate(R.menu.savedsearchmenu, menu);
+		}
 		return true;
 	}
 	    
@@ -174,6 +164,13 @@ public class AlertsDisplay extends Activity{
 			break;
 		case R.id.savesearch:
 			searchObj.saveSearch();
+			break;
+		case R.id.updatesearch:
+			Toast.makeText(AlertsDisplay.this,
+					"Updating results",
+					Toast.LENGTH_LONG).show();
+			alertitems = searchObj.updateSearch(this);
+			updateAlerts();
 			break;
 		case R.id.About:
 			final Dialog adialog = new Dialog(AlertsDisplay.this);

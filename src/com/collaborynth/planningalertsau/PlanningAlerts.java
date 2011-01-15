@@ -125,8 +125,7 @@ public class PlanningAlerts extends Activity {
         savedSearches.setOnClickListener(new OnClickListener() {
         	
         	public void onClick(View v){
-        		Intent savedSearchesIntent = new Intent(v.getContext(),AlertsDisplay.class);
-        		savedSearchesIntent.putExtra("type",2);
+        		Intent savedSearchesIntent = new Intent(v.getContext(),SavedSearchesDisplay.class);
         		startActivityForResult(savedSearchesIntent,0);
         	}
         });

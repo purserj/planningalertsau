@@ -32,7 +32,6 @@ public class PlanningAlerts extends Activity {
 	SharedPreferences preferences;
 	Button newSearch;
 	Button savedSearches;
-	Button getLocal;
 	String stypeStr;
 	
 	private PlanningAlertsDBHelper dbhelper;
@@ -45,7 +44,6 @@ public class PlanningAlerts extends Activity {
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         newSearch = (Button) findViewById(R.id.NewSearch);
         savedSearches = (Button) findViewById(R.id.SavedSearches);
-        getLocal = (Button) findViewById(R.id.LocalAlerts);
         dbhelper = new PlanningAlertsDBHelper(this);
                 
         newSearch.setOnClickListener(new OnClickListener() {
@@ -89,6 +87,7 @@ public class PlanningAlerts extends Activity {
         	        	   rt.setVisibility(0);
         	        	   rv.setVisibility(0);
         	        	   state.setVisibility(8);
+        	        	   ev.setVisibility(8);
         	        	   break;
         	           }
         	        }
@@ -127,15 +126,6 @@ public class PlanningAlerts extends Activity {
         	public void onClick(View v){
         		Intent savedSearchesIntent = new Intent(v.getContext(),SavedSearchesDisplay.class);
         		startActivityForResult(savedSearchesIntent,0);
-        	}
-        });
-        
-        getLocal.setOnClickListener(new OnClickListener() {
-        	
-        	public void onClick(View v){
-        		Intent getLocalIntent = new Intent(v.getContext(),AlertsDisplay.class);
-        		getLocalIntent.putExtra("type",2);
-        		startActivityForResult(getLocalIntent,0);
         	}
         });
     }

@@ -111,7 +111,28 @@ public class AlertsDisplay extends Activity{
         	searchObj = new SearchObject(this, extras.getInt("sid"));
         	alertitems = searchObj.getSavedResults();
         }
-        updateAlerts();
+        if(alertitems != null && alertitems.size() > 0){
+        	updateAlerts();
+        } else {
+        	final Dialog nDialog = new Dialog(this);
+        	nDialog.setContentView(R.layout.noresultsdialog);
+        	nDialog.setTitle("Search Results");
+        	nDialog.show();
+        	Button closebutt = (Button) nDialog.findViewById(R.id.CloseButton);
+        	closebutt.setOnClickListener(new OnClickListener(){
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					nDialog.dismiss();
+				}
+        		
+        	});
+        	if(nDialog.isShowing() == false){
+        			super.finish();
+        	}
+        }
+        
 	}
 	
 	public void updateAlerts(){
@@ -120,7 +141,7 @@ public class AlertsDisplay extends Activity{
         	final AlertItem item = alertitems.get(i);
         	TextView tvr = new TextView(alertresults.getContext());
         	//Log.d("FinRes", item.getTitle());
-        	tvr.setText(Html.fromHtml("<b>"+item.getTitle() + "</b><br />" +item.getDescription()));
+        	tvr.setText(Html.fromHtml("<span color=#ffffff><b>"+item.getTitle() + "</b><br />" +item.getDescription()+"</span>"));
         	tvr.setId(100+i);
         	tvr.setOnClickListener(new OnClickListener() {
         		public void onClick(View v){
@@ -188,7 +209,9 @@ public class AlertsDisplay extends Activity{
 			});
 			adialog.show();
 			break;
-
+		case R.id.Delete:
+			searchObj.deleteSearch();
+			this.finish();
 	}
 		return true;
 	}			

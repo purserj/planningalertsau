@@ -22,7 +22,8 @@
   	android:layout_height="wrap_content"
   	android:text="Search Radius"
   	android:layout_below="@+id/SearchText"
-  	android:visibility="gone">
+  	android:visibility="gone"
+  	style="@style/headerText">
   	</TextView>
   <EditText
   	android:id="@+id/RadiusText"

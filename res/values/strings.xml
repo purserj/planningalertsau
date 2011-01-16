@@ -24,6 +24,9 @@
 <p>It is a work in progress, so please feel free to log any bugs <a href="http://code.google.com/p/planningalertsau/issues/list">here</a></p>
 
 </string>
+<string name="noResults">
+Sorry, no results were found for your search
+</string>
 <string name="SearchPrompt">
 Search type
 </string>

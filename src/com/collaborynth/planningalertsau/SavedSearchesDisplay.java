@@ -32,11 +32,30 @@ public class SavedSearchesDisplay extends Activity{
         final Cursor cur = db.query("searches", null, null, null, null, null, null);
         cur.moveToFirst();
         int i = 0;
+        String typestr = null;
         while(cur.isAfterLast() == false){
         	TextView tvr = new TextView(savedsearches.getContext());
         	final int sidstr = cur.getInt(0);
-        	final int typestr = cur.getInt(1);
-        	tvr.setText(Html.fromHtml("<b>"+cur.getString(2)+"</b>"));
+        	final int typeint = cur.getInt(1);
+        	
+        	switch(typeint){
+        		case(1):
+        			typestr = "Address";
+        			break;
+        		case(2):
+        			typestr = "Suburb";
+        			break;
+        		case(3):
+        			typestr = "Postcode";
+        			break;
+        		case(4):
+        			typestr = "Council Area";
+        			break;
+        		case(5):
+        			typestr = "Location";
+        			break;
+        	}
+        	tvr.setText(Html.fromHtml("<b>Search Type:"+typestr+"</b><br />"+cur.getString(2)));
         	tvr.setId(100+i);
         	tvr.setBackgroundResource(R.drawable.border);
         	tvr.setPadding(5, 5, 5, 5);
@@ -44,7 +63,7 @@ public class SavedSearchesDisplay extends Activity{
         		public void onClick(View v){
         			Intent alertsIntent = new Intent(v.getContext(),AlertsDisplay.class);
         			alertsIntent.putExtra("sid", sidstr);
-        			alertsIntent.putExtra("type", typestr);
+        			alertsIntent.putExtra("type", typeint);
         			startActivityForResult(alertsIntent,0);
         		}
         	});
@@ -54,5 +73,57 @@ public class SavedSearchesDisplay extends Activity{
         	i++;
         }
         db.close();
+	}
+	
+	public void onResume(){
+		super.onResume();
+		dbhelper = new PlanningAlertsDBHelper(this);
+        db = dbhelper.getReadableDatabase();
+		savedsearches.removeAllViews();
+		final Cursor cur = db.query("searches", null, null, null, null, null, null);
+        cur.moveToFirst();
+        int i = 0;
+        String typestr = null;
+        while(cur.isAfterLast() == false){
+        	TextView tvr = new TextView(savedsearches.getContext());
+        	final int sidstr = cur.getInt(0);
+        	final int typeint = cur.getInt(1);
+        	
+        	switch(typeint){
+        		case(1):
+        			typestr = "Address";
+        			break;
+        		case(2):
+        			typestr = "Suburb";
+        			break;
+        		case(3):
+        			typestr = "Postcode";
+        			break;
+        		case(4):
+        			typestr = "Council Area";
+        			break;
+        		case(5):
+        			typestr = "Location";
+        			break;
+        	}
+        	tvr.setText(Html.fromHtml("<b>Search Type:"+typestr+"</b><br />"+cur.getString(2)));
+        	tvr.setId(100+i);
+        	tvr.setBackgroundResource(R.drawable.border);
+        	tvr.setPadding(5, 5, 5, 5);
+        	tvr.setOnClickListener(new OnClickListener() {
+        		public void onClick(View v){
+        			Intent alertsIntent = new Intent(v.getContext(),AlertsDisplay.class);
+        			alertsIntent.putExtra("sid", sidstr);
+        			alertsIntent.putExtra("type", typeint);
+        			startActivityForResult(alertsIntent,0);
+        		}
+        	});
+        	Log.i("Title", cur.getString(1));
+        	savedsearches.addView(tvr);
+        	cur.moveToNext();
+        	i++;
+        }
+        db.close();
+		
 	}
 }

@@ -184,6 +184,12 @@ public class SearchObject {
 		db.delete("search_results", "result_search_id=?", new String[] {Integer.toString(this.sid)});
 	}
 	
+	public void deleteSearch(){
+		db = dbhelper.getWritableDatabase();
+		db.delete("search_results", "result_search_id=?", new String[] {Integer.toString(this.sid)});
+		db.delete("searches", "search_id=?", new String[] {Integer.toString(sid)});
+	}
+	
 	public List<AlertItem> updateSearch(Context ct){
 		db = dbhelper.getReadableDatabase();
 		Cursor cur = db.rawQuery("SELECT * FROM searches WHERE search_id = "+this.sid, null);

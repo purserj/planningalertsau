@@ -51,7 +51,6 @@ public class PlanningAlerts extends Activity {
         	public void onClick(View v){
         		final Dialog searchDialog = new Dialog(PlanningAlerts.this);
         		searchDialog.setContentView(R.layout.searchview);
-        		searchDialog.setTitle("New Search");
         		searchDialog.setCancelable(true);
         		searchDialog.show();
         		
@@ -60,34 +59,31 @@ public class PlanningAlerts extends Activity {
         		final TextView rt = (TextView) searchDialog.findViewById(R.id.RadiusLabel);
         		final EditText rv = (EditText) searchDialog.findViewById(R.id.RadiusText);
         		final Spinner state = (Spinner) searchDialog.findViewById(R.id.StateSpinner);
+        		rv.setEnabled(false);
+        		state.setEnabled(false);
         	    stype.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         	        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         	           switch(pos){
         	           case 0:
-        	        	   rt.setVisibility(0);
-        	        	   rv.setVisibility(0);
-        	        	   state.setVisibility(8);
+        	        	   rv.setEnabled(true);
+        	        	   state.setEnabled(false);
         	        	   break;
         	           case 1:
-        	        	   rt.setVisibility(8);
-        	        	   rv.setVisibility(8);
-        	        	   state.setVisibility(0);
+        	        	   rv.setEnabled(false);
+        	        	   state.setEnabled(true);
         	        	   break;
         	           case 2:
-        	        	   rt.setVisibility(8);
-        	        	   rv.setVisibility(8);
-        	        	   state.setVisibility(8);
+        	        	   rv.setEnabled(false);
+        	        	   state.setEnabled(false);
         	        	   break;
         	           case 3:
-        	        	   rt.setVisibility(8);
-        	        	   rv.setVisibility(8);
-        	        	   state.setVisibility(8);
+        	        	   rv.setEnabled(false);
+        	        	   state.setEnabled(false);
         	        	   break;
         	           case 4:
-        	        	   rt.setVisibility(0);
-        	        	   rv.setVisibility(0);
-        	        	   state.setVisibility(8);
-        	        	   ev.setVisibility(8);
+        	        	   rv.setEnabled(true);
+        	        	   state.setEnabled(false);
+        	        	   ev.setEnabled(false);
         	        	   break;
         	           }
         	        }

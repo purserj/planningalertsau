@@ -2,7 +2,7 @@
 <RelativeLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="fill_parent"
-  android:layout_height="fill_parent">
+  android:layout_height="wrap_content">
   <Spinner 
   	android:id="@+id/SearchTypeSpinner" 
   	android:layout_height="wrap_content" 
@@ -14,7 +14,8 @@
   	android:id="@+id/SearchText"
   	android:layout_width="fill_parent"
   	android:layout_height="wrap_content"
-  	android:layout_below="@+id/SearchTypeSpinner">
+  	android:layout_below="@+id/SearchTypeSpinner"
+  	android:imeOptions="actionDone">
   	</EditText>
   <TextView
   	android:id="@+id/RadiusLabel"
@@ -22,7 +23,6 @@
   	android:layout_height="wrap_content"
   	android:text="Search Radius"
   	android:layout_below="@+id/SearchText"
-  	android:visibility="gone"
   	style="@style/headerText">
   	</TextView>
   <EditText
@@ -30,22 +30,32 @@
   	android:layout_width="fill_parent"
   	android:layout_height="wrap_content"
   	android:layout_below="@+id/RadiusLabel"
-  	android:visibility="gone">
+  	android:imeOptions="actionDone"
+  	android:inputType="number">
   	</EditText>
+  <TextView
+  	android:id="@+id/StateLabel"
+  	android:layout_width="fill_parent"
+  	android:layout_height="wrap_content"
+  	android:text="Select State"
+  	android:layout_below="@+id/RadiusText"
+  	style="@style/headerText"
+  	>
+  	</TextView>
   <Spinner
   	android:id="@+id/StateSpinner"
   	android:layout_width="fill_parent"
   	android:layout_height="wrap_content"
-  	android:layout_below="@+id/RadiusText"
   	android:entries="@array/states"
   	android:prompt="@string/StatePrompt"
-  	android:visibility="gone">
+  	android:layout_below="@+id/StateLabel"
+  	>
   	</Spinner>
   	 <Button
   	android:layout_width="fill_parent"
   	android:layout_height="wrap_content"
   	android:id="@+id/ShowResultsButton"
   	android:text="Show Results"
-  	android:layout_alignParentBottom="true">
+  	android:layout_below="@+id/StateSpinner">
   	</Button>
 </RelativeLayout>

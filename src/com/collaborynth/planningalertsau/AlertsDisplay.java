@@ -30,6 +30,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -180,11 +181,13 @@ public class AlertsDisplay extends Activity{
 						Toast.LENGTH_LONG).show();
 			} else {
 				i = new Intent(AlertsDisplay.this, MapAlertsDisplay.class);
+				MapAlertsDisplay.searchObj = searchObj;
 				startActivity(i);
 			}
 			break;
 		case R.id.savesearch:
 			searchObj.saveSearch();
+			Toast.makeText(AlertsDisplay.this, "Your search has been saved", Toast.LENGTH_LONG).show();
 			break;
 		case R.id.updatesearch:
 			Toast.makeText(AlertsDisplay.this,

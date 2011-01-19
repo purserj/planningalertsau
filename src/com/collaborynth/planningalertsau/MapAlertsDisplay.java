@@ -49,6 +49,7 @@ public class MapAlertsDisplay extends MapActivity {
 	MapView map = null;
 	MapController mcontroller = null;
 	Projection projection = null;
+	public static SearchObject searchObj;
 	
 	
 	public void onCreate(Bundle savedInstanceState)
@@ -107,7 +108,8 @@ public class MapAlertsDisplay extends MapActivity {
 		switch (item.getItemId()) 
 		{
 		case R.id.savesearch:
-			
+			searchObj.saveSearch();
+			Toast.makeText(MapAlertsDisplay.this, "Your search has been saved", Toast.LENGTH_LONG).show();
 			break;
 		case R.id.About:
 			final Dialog adialog = new Dialog(MapAlertsDisplay.this);

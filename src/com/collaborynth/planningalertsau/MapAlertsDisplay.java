@@ -5,6 +5,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -62,6 +63,14 @@ public class MapAlertsDisplay extends MapActivity {
         projection = map.getProjection();
         List<Overlay> mapOverlays = map.getOverlays();
         Drawable drawable = this.getResources().getDrawable(R.drawable.mapindicator);
+        Drawable threemonthsindicator = this.getResources().getDrawable(R.drawable.mapindicator3months);
+        threemonthsindicator.setBounds(0,0, 
+        		threemonthsindicator.getIntrinsicWidth(),
+        		threemonthsindicator.getIntrinsicHeight());
+        Drawable sixmonthsindicator = this.getResources().getDrawable(R.drawable.mapindicator6months);
+        sixmonthsindicator.setBounds(0,0, 
+        		sixmonthsindicator.getIntrinsicWidth(),
+        		sixmonthsindicator.getIntrinsicHeight());
         AlertsOverlay itemizedoverlay = new AlertsOverlay(drawable);
         alerts = AlertsDisplay.alertitems;
         //Log.d("alerts_num", Integer.toString(alerts.size()));
@@ -72,6 +81,16 @@ public class MapAlertsDisplay extends MapActivity {
         	OverlayItem ol = new OverlayItem(ai.getGP(), 
         			ai.getTitle(), 
         			ai.getDate() + "\n" + ai.getDescription());
+        	switch(dateDifference(Date.parse(ai.getDate()))){
+        	case 1:
+        		break;
+        	case 2:
+        		ol.setMarker(threemonthsindicator);
+        		break;
+        	case 3:
+        		ol.setMarker(sixmonthsindicator);
+        		break;
+        	}
         	itemizedoverlay.addOverlay(ol);
         	if(i == 0){
         		mcontroller.animateTo(ai.getGP());
@@ -85,6 +104,28 @@ public class MapAlertsDisplay extends MapActivity {
         mapOverlays.add(itemizedoverlay);
         //Log.d("number of overlays", Integer.toString(mapOverlays.size()));
     }
+	
+	private int dateDifference(long date){
+		Date dte = new Date();
+		Long diff = new Long(dte.getTime() - date);
+		Long onemonth = new Long("2628000000");
+		Long threemonths = new Long("7884000000");
+		Long sixmonths = new Long("15768000000");
+		int retValue = 0;
+		if(diff.compareTo(onemonth) == 0 || 
+				diff.compareTo(onemonth) == -1){
+			retValue = 1;
+		} else if(diff.compareTo(onemonth) == 1 &&
+				diff.compareTo(threemonths) == 0 || 
+				diff.compareTo(threemonths) == 1 &&
+				diff.compareTo(sixmonths) == -1){
+			retValue = 2;
+		} else if(diff.compareTo(sixmonths) == 0 ||
+				diff.compareTo(sixmonths) == 1){
+			retValue = 3;
+		}
+		return retValue;
+	}
  
     @Override
     protected boolean isRouteDisplayed() {
@@ -231,7 +272,8 @@ public class MapAlertsDisplay extends MapActivity {
     	@Override
     	protected OverlayItem createItem(int i) {
     		// TODO Auto-generated method stub
-    		return mOverlays.get(i);
+    		OverlayItem oitem = mOverlays.get(i);
+    		return oitem;
     	}
 
     	@Override

@@ -28,6 +28,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
@@ -116,6 +117,7 @@ public class AlertsDisplay extends Activity{
         	updateAlerts();
         } else {
         	final Dialog nDialog = new Dialog(this);
+        	nDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         	nDialog.setContentView(R.layout.noresultsdialog);
         	nDialog.setTitle("Search Results");
         	nDialog.show();
@@ -125,7 +127,8 @@ public class AlertsDisplay extends Activity{
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					nDialog.dismiss();
+					finish();
+					
 				}
         		
         	});

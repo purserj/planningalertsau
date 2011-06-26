@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -50,6 +51,7 @@ public class PlanningAlerts extends Activity {
         	
         	public void onClick(View v){
         		final Dialog searchDialog = new Dialog(PlanningAlerts.this);
+        		searchDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         		searchDialog.setContentView(R.layout.searchview);
         		searchDialog.setCancelable(true);
         		searchDialog.show();

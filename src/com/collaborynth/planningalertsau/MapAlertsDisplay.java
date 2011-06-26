@@ -37,6 +37,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewDebug.IntToString;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +52,7 @@ public class MapAlertsDisplay extends MapActivity {
 	MapController mcontroller = null;
 	Projection projection = null;
 	public static SearchObject searchObj;
+	Button key;
 	
 	
 	public void onCreate(Bundle savedInstanceState)
@@ -58,6 +60,32 @@ public class MapAlertsDisplay extends MapActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mapsalertdisplay);
         map = (MapView) findViewById(R.id.mapView);
+        key = (Button) findViewById(R.id.keyButton);
+        
+        key.setOnClickListener(new OnClickListener(){
+        	
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				final Dialog d = new Dialog(MapAlertsDisplay.this);
+				d.requestWindowFeature(Window.FEATURE_NO_TITLE);
+				d.setContentView(R.layout.mapkeydialog);
+				d.setCancelable(true);
+				Button cb = (Button) d.findViewById(R.id.closeButton);
+				
+				d.show();
+				
+				cb.setOnClickListener(new OnClickListener(){
+
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						d.cancel();
+					}
+					
+				});
+			}
+        });
         map.setBuiltInZoomControls(true);
         mcontroller = map.getController();
         projection = map.getProjection();
@@ -86,9 +114,12 @@ public class MapAlertsDisplay extends MapActivity {
         		break;
         	case 2:
         		ol.setMarker(threemonthsindicator);
+        		Log.d("Age", "Between 3 months and 6 months");
         		break;
         	case 3:
         		ol.setMarker(sixmonthsindicator);
+        		Log.d("Age", "6 months or more");
+        				
         		break;
         	}
         	itemizedoverlay.addOverlay(ol);

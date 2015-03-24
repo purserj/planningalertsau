@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/Users/jamesp/StudioProjects/planningalertsau2/app/src/main/res"><file name="logo" path="/Users/jamesp/StudioProjects/planningalertsau2/app/src/main/res/drawable-ldpi/logo.png" qualifiers="ldpi-v4" type="drawable"/><file name="border" path="/Users/jamesp/StudioProjects/planningalertsau2/app/src/main/res/drawable-mdpi/border.xml" qualifiers="mdpi-v4" type="drawable"/><file name="icon" path="/Users/jamesp/StudioProjects/planningalertsau2/app/src/main/res/drawable-mdpi/icon.png" qualifiers="mdpi-v4" type="drawable"/><file name="logo" path="/Users/jamesp/StudioProjects/planningalertsau2/app/src/main/res/drawable-mdpi/logo.png" qualifiers="mdpi-v4" type="drawable"/><file name="mapindicator" path="/Users/jamesp/StudioProjects/planningalertsau2/app/src/main/res/drawable-mdpi/mapindicator.png" qualifiers="mdpi-v4" type="drawable"/><file name="mapindicator3months" path="/Users/jamesp/StudioProjects/planningalertsau2/app/src/main/res/drawable-mdpi/mapindicator3months.png" qualifiers="mdpi-v4" type="drawable"/><file name="mapindicator6months" path="/Users/jamesp/StudioProjects/planningalertsau2/app/src/main/res/drawable-mdpi/mapindicator6months.png" qualifiers="mdpi-v4" type="drawable"/><file name="aboutdialog" path="/Users/jamesp/StudioProjects/planningalertsau2/app/src/main/res/layout/aboutdialog.xml" qualifiers="" type="layout"/><file name="alertsdisplay" path="/Users/jamesp/StudioProjects/planningalertsau2/app/src/main/res/layout/alertsdisplay.xml" qualifiers="" type="layout"/><file name="main" path="/Users/jamesp/StudioProjects/planningalertsau2/app/src/main/res/layout/main.xml" qualifiers="" type="layout"/><file name="mapsalertdisplay" path="/Users/jamesp/StudioProjects/planningalertsau2/app/src/main/res/layout/mapsalertdisplay.xml" qualifiers="" type="layout"/><file name="noresultsdialog" path="/Users/jamesp/StudioProjects/planningalertsau2/app/src/main/res/layout/noresultsdialog.xml" qualifiers="" type="layout"/><file name="savedsearches" path="/Users/jamesp/StudioProjects/planningalertsau2/app/src/main/res/layout/savedsearches.xml" qualifiers="" type="layout"/><file name="searchview" path="/Users/jamesp/StudioProjects/planningalertsau2/app/src/main/res/layout/searchview.xml" qualifiers="" type="layout"/><file name="webalertdisplay" path="/Users/jamesp/StudioProjects/planningalertsau2/app/src/main/res/layout/webalertdisplay.xml" qualifiers="" type="layout"/><file name="alertsdisplaymenu" path="/Users/jamesp/StudioProjects/planningalertsau2/app/src/main/res/menu/alertsdisplaymenu.xml" qualifiers="" type="menu"/><file name="mapalertsmenu" path="/Users/jamesp/StudioProjects/planningalertsau2/app/src/main/res/menu/mapalertsmenu.xml" qualifiers="" type="menu"/><file name="menu" path="/Users/jamesp/StudioProjects/planningalertsau2/app/src/main/res/menu/menu.xml" qualifiers="" type="menu"/><file name="savedsearchmenu" path="/Users/jamesp/StudioProjects/planningalertsau2/app/src/main/res/menu/savedsearchmenu.xml" qualifiers="" type="menu"/><file path="/Users/jamesp/StudioProjects/planningalertsau2/app/src/main/res/values/AppStyles.xml" qualifiers=""><style name="PlanningAlertsStyle">
+		<item name="android:windowBackground">@color/background</item>
+		<item name="android:textColor">#fff</item>
+	</style><style name="alertItem">
+		<item name="android:background">@drawable/border</item>
+		<item name="android:textColor">#ffffff</item>
+	</style><style name="headerText" parent="@android:style/TextAppearance">
+		<item name="android:textColor">#ffffff</item>
+		<item name="android:padding">10dip</item>
+		<item name="android:textStyle">bold</item>
+	</style></file><file path="/Users/jamesp/StudioProjects/planningalertsau2/app/src/main/res/values/colors.xml" qualifiers=""><color name="white">#ffffff</color><color name="background">#333333</color></file><file path="/Users/jamesp/StudioProjects/planningalertsau2/app/src/main/res/values/strings.xml" qualifiers=""><string name="noResults">
+Sorry, no results were found for your search
+</string><string name="About">
+<p>PlanningAlertsAU is an open source Android App built on top of the very cool work being done by the folks over at <a href="http://openaustralia.org.au">OpenAustralia</a>.</p>
+<p>It is a work in progress, so please feel free to log any bugs <a href="http://code.google.com/p/planningalertsau/issues/list">here</a></p>
+
+</string><string name="SearchPrompt">
+Search type
+</string><string-array name="states_labels"><item>NSW</item>
+<item>VIC</item>
+<item>QLD</item>
+<item>SA</item>
+<item>WA</item>
+<item>TAS</item>
+</string-array><string name="StatePrompt">
+	Select State
+</string><string name="app_name">PlanningAlerts</string><string-array name="states"><item>NSW</item>
+<item>VIC</item>
+<item>QLD</item>
+<item>SA</item>
+<item>WA</item>
+<item>TAS</item>
+</string-array><string name="hello">PlanningAlerts AU is based on the good work at planningalerts.org.au</string><string-array name="SearchTypes">
+<item>Address</item>
+<item>Suburb</item>
+<item>Postcode</item>
+<item>Council Area</item>
+<item>Current Location</item>
+</string-array></file></source><source path="/Users/jamesp/StudioProjects/planningalertsau2/app/build/generated/res/rs/debug"/><source path="/Users/jamesp/StudioProjects/planningalertsau2/app/build/generated/res/generated/debug"/></dataSet><dataSet config="debug"><source path="/Users/jamesp/StudioProjects/planningalertsau2/app/src/debug/res"/></dataSet><mergedItems/></merger>

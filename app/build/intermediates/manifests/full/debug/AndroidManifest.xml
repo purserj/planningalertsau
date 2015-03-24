@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.collaborynth.planningalertsau"
+    android:versionCode="2"
+    android:versionName="2.0" >
+
+    <uses-sdk
+        android:minSdkVersion="4"
+        android:targetSdkVersion="4" />
+
+    <supports-screens />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <application
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:theme="@style/PlanningAlertsStyle" >
+        <uses-library android:name="com.google.android.maps" />
+
+        <activity
+            android:name="com.collaborynth.planningalertsau.PlanningAlerts"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.collaborynth.planningalertsau.PlanningPreferences"
+            android:label="Preferences" >
+        </activity>
+        <activity android:name="com.collaborynth.planningalertsau.AlertsDisplay" />
+        <activity android:name="com.collaborynth.planningalertsau.MapAlertsDisplay" />
+        <activity
+            android:name="com.collaborynth.planningalertsau.AlertWebDisplay"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity android:name="com.collaborynth.planningalertsau.SavedSearchesDisplay" />
+    </application>
+
+</manifest>

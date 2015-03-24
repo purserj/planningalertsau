@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="fill_parent" 
+    android:layout_height="fill_parent">
+ <!--Debug Package android:apiKey="0xxH9W3gdHC8JratR7W91HYVc4vcwyCMUEfXyMw"-->
+ <!--Full Version Key android:apiKey="0xxH9W3gdHC-1Cy_Ef0Y_q01eSPwkrs_HTmyJ9w" -->
+    <com.google.android.maps.MapView 
+        android:id="@+id/mapView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:enabled="true"
+        android:clickable="true"
+        android:apiKey="0xxH9W3gdHC8JratR7W91HYVc4vcwyCMUEfXyMw"
+        />
+    <Button android:id="@+id/keyButton" 
+    	android:layout_above="@+id/mapView" 
+    	android:layout_width="wrap_content" 
+    	android:layout_height="wrap_content" 
+    	android:layout_alignBottom="@+id/mapView"
+    	android:layout_gravity="center_horizontal"
+    	android:text="Key">
+        </Button>
+</RelativeLayout><!-- From: file:/Users/jamesp/StudioProjects/planningalertsau2/app/src/main/res/layout/mapsalertdisplay.xml -->

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content">
+  <Spinner 
+  	android:id="@+id/SearchTypeSpinner" 
+  	android:layout_height="wrap_content" 
+  	android:layout_width="fill_parent"
+  	android:prompt="@string/SearchPrompt"
+  	android:entries="@array/SearchTypes">
+  	</Spinner>
+  <EditText
+  	android:id="@+id/SearchText"
+  	android:layout_width="fill_parent"
+  	android:layout_height="wrap_content"
+  	android:layout_below="@+id/SearchTypeSpinner"
+  	android:singleLine="true"
+  	android:imeOptions="actionDone">
+  	</EditText>
+  <TextView
+  	android:id="@+id/RadiusLabel"
+  	android:layout_width="fill_parent"
+  	android:layout_height="wrap_content"
+  	android:text="Search Radius"
+  	android:layout_below="@+id/SearchText"
+  	style="@style/headerText">
+  	</TextView>
+  <EditText
+  	android:id="@+id/RadiusText"
+  	android:layout_width="fill_parent"
+  	android:layout_height="wrap_content"
+  	android:layout_below="@+id/RadiusLabel"
+  	android:imeOptions="actionDone"
+  	android:inputType="number">
+  	</EditText>
+  <TextView
+  	android:id="@+id/StateLabel"
+  	android:layout_width="fill_parent"
+  	android:layout_height="wrap_content"
+  	android:text="Select State"
+  	android:layout_below="@+id/RadiusText"
+  	style="@style/headerText"
+  	>
+  	</TextView>
+  <Spinner
+  	android:id="@+id/StateSpinner"
+  	android:layout_width="fill_parent"
+  	android:layout_height="wrap_content"
+  	android:entries="@array/states"
+  	android:prompt="@string/StatePrompt"
+  	android:layout_below="@+id/StateLabel"
+  	>
+  	</Spinner>
+  	 <Button
+  	android:layout_width="fill_parent"
+  	android:layout_height="wrap_content"
+  	android:id="@+id/ShowResultsButton"
+  	android:text="Show Results"
+  	android:layout_below="@+id/StateSpinner">
+  	</Button>
+</RelativeLayout>
+<!-- From: file:/Users/jamesp/StudioProjects/planningalertsau2/app/src/main/res/layout/searchview.xml -->

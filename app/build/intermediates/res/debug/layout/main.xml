@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+
+<ImageView 
+	android:id="@+id/FPLogo" 
+	android:layout_width="fill_parent" 
+	android:layout_height="wrap_content" 
+	android:src="@drawable/logo" android:scaleType="center"
+	android:layout_centerHorizontal="true"
+	android:layout_marginTop="5dip">
+	</ImageView>
+<TextView 
+	android:id="@+id/FPText" 
+	android:layout_width="fill_parent" 
+	android:layout_height="wrap_content"
+	android:text="@string/hello"
+	android:layout_below="@+id/FPLogo"
+	android:layout_centerHorizontal="true"
+	style="@style/headerText">
+	</TextView>
+<RelativeLayout
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_below="@+id/FPText"
+		android:layout_alignParentBottom="true"
+	>
+	<Button 
+		android:text="New Search" 
+		android:id="@+id/NewSearch" 
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content">
+		</Button>
+	<Button 
+		android:text="Saved Searches" 
+		android:id="@+id/SavedSearches" 
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/NewSearch">
+		</Button>
+	</RelativeLayout>
+</RelativeLayout>
+<!-- From: file:/Users/jamesp/StudioProjects/planningalertsau2/app/src/main/res/layout/main.xml -->

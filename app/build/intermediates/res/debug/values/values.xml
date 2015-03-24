@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/Users/jamesp/StudioProjects/planningalertsau2/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string-array name="SearchTypes">
+<item>Address</item>
+<item>Suburb</item>
+<item>Postcode</item>
+<item>Council Area</item>
+<item>Current Location</item>
+</string-array>
+    <string-array name="states"><item>NSW</item>
+<item>VIC</item>
+<item>QLD</item>
+<item>SA</item>
+<item>WA</item>
+<item>TAS</item>
+</string-array>
+    <string-array name="states_labels"><item>NSW</item>
+<item>VIC</item>
+<item>QLD</item>
+<item>SA</item>
+<item>WA</item>
+<item>TAS</item>
+</string-array>
+    <!-- From: file:/Users/jamesp/StudioProjects/planningalertsau2/app/src/main/res/values/colors.xml -->
+    <eat-comment/>
+    <color name="background">#333333</color>
+    <color name="white">#ffffff</color>
+    <!-- From: file:/Users/jamesp/StudioProjects/planningalertsau2/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="About">
+<p>PlanningAlertsAU is an open source Android App built on top of the very cool work being done by the folks over at <a href="http://openaustralia.org.au">OpenAustralia</a>.</p>
+<p>It is a work in progress, so please feel free to log any bugs <a href="http://code.google.com/p/planningalertsau/issues/list">here</a></p>
+
+</string>
+    <string name="SearchPrompt">
+Search type
+</string>
+    <string name="StatePrompt">
+	Select State
+</string>
+    <string name="app_name">PlanningAlerts</string>
+    <string name="hello">PlanningAlerts AU is based on the good work at planningalerts.org.au</string>
+    <string name="noResults">
+Sorry, no results were found for your search
+</string>
+    <!-- From: file:/Users/jamesp/StudioProjects/planningalertsau2/app/src/main/res/values/AppStyles.xml -->
+    <eat-comment/>
+    <style name="PlanningAlertsStyle">
+		<item name="android:windowBackground">@color/background</item>
+		<item name="android:textColor">#fff</item>
+	</style>
+    <style name="alertItem">
+		<item name="android:background">@drawable/border</item>
+		<item name="android:textColor">#ffffff</item>
+	</style>
+    <style name="headerText" parent="@android:style/TextAppearance">
+		<item name="android:textColor">#ffffff</item>
+		<item name="android:padding">10dip</item>
+		<item name="android:textStyle">bold</item>
+	</style>
+</resources>
